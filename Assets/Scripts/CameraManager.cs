@@ -121,6 +121,7 @@ public class CameraManager : MonoBehaviour
     {
         Vector3 delta = previoutPanPoint - newPoint;
         mainCamera.transform.localPosition += delta;
+        ClampCameara();
     }
 
     private Vector3 TryGetRaycastHitBaseGround(Vector2 touch)
@@ -137,4 +138,19 @@ public class CameraManager : MonoBehaviour
             return PositiveInfinityVector;
         }
     }
+
+    private void ClampCameara()
+    {
+        float worldSizePerPixel = 2 * mainCamera.orthographicSize / (float)Screen.height;
+
+        var leftClampScreenPos = mainCamera.WorldToScreenPoint(CameraBoundary.instance.CameraClampTopLeftPosition);
+        if (leftClampScreenPos.x > 0)
+        {
+            float deltaFactor = leftClampScreenPos.x * worldSizePerPixel;
+            var delta = new Vector3(deltaFactor, 0, 0);
+            //delta = mainCamera.transform.TransformVector(delta);
+            mainCamera.transform.localPosition += delta;
+        }
+    }
+
 }

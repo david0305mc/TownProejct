@@ -143,14 +143,40 @@ public class CameraManager : MonoBehaviour
     {
         float worldSizePerPixel = 2 * mainCamera.orthographicSize / (float)Screen.height;
 
-        var leftClampScreenPos = mainCamera.WorldToScreenPoint(CameraBoundary.instance.CameraClampTopLeftPosition);
-        if (leftClampScreenPos.x > 0)
+        var leftTopClampScreenPos = mainCamera.WorldToScreenPoint(CameraBoundary.instance.CameraClampTopLeftPosition);
+        if (leftTopClampScreenPos.x > 0)
         {
-            float deltaFactor = leftClampScreenPos.x * worldSizePerPixel;
+            float deltaFactor = leftTopClampScreenPos.x * worldSizePerPixel;
             var delta = new Vector3(deltaFactor, 0, 0);
-            //delta = mainCamera.transform.TransformVector(delta);
+            delta = mainCamera.transform.TransformVector(delta);
+            mainCamera.transform.localPosition += delta;
+        }
+
+        if (leftTopClampScreenPos.y < Screen.height)
+        {
+            float deltaFactor = (Screen.height - leftTopClampScreenPos.y) * worldSizePerPixel;
+            var delta = new Vector3(0, deltaFactor, 0);
+            delta = mainCamera.transform.TransformVector(delta);
+            mainCamera.transform.localPosition -= delta;
+        }
+
+        var rightBottomClampScreenPos = mainCamera.WorldToScreenPoint(CameraBoundary.instance.CameraClampBottomRightBotPosition);
+        if (rightBottomClampScreenPos.x < Screen.width)
+        {
+            float deltaFactor = (Screen.width - rightBottomClampScreenPos.x) * worldSizePerPixel;
+            var delta = new Vector3(deltaFactor, 0, 0);
+            delta = mainCamera.transform.TransformVector(delta);
+            mainCamera.transform.localPosition -= delta;
+        }
+
+        if (rightBottomClampScreenPos.y > 0)
+        {
+            float deltaFactor = rightBottomClampScreenPos.y * worldSizePerPixel;
+            var delta = new Vector3(0, deltaFactor, 0);
+            delta = mainCamera.transform.TransformVector(delta);
             mainCamera.transform.localPosition += delta;
         }
     }
+
 
 }

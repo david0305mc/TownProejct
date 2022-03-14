@@ -10,8 +10,8 @@ public class CameraBoundary : MonoBehaviour
     private Vector3 cameraClampTopLeftPosition;
     public Vector3 CameraClampTopLeftPosition { get { return cameraClampTopLeftPosition; } }
 
-    private Vector3 cameraClampBottomRightPosition;
-    public Vector3 CameraClampBottomRightPosition { get { return cameraClampBottomRightPosition; } }
+    private Vector3 cameraClampBottomRightBotPosition;
+    public Vector3 CameraClampBottomRightBotPosition { get { return cameraClampBottomRightBotPosition; } }
 
     public Rect Bound
     {
@@ -52,7 +52,7 @@ public class CameraBoundary : MonoBehaviour
     {
         Vector3 delta = transform.TransformVector(new Vector3(-Bound.width, Bound.height, 0) / 2.0f);
         cameraClampTopLeftPosition = transform.position + delta;
-        cameraClampBottomRightPosition = transform.position - delta;
+        cameraClampBottomRightBotPosition = transform.position - delta;
     }
 
     private void OnValidate()

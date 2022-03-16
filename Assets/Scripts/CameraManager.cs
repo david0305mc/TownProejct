@@ -112,7 +112,7 @@ public class CameraManager : MonoBehaviour
                 isPanningStarted = false;
                 OnScenePanEnded();
             }
-            //UpdatePanInertia();
+            UpdatePanInertia();
         }
     }
 
@@ -126,7 +126,8 @@ public class CameraManager : MonoBehaviour
         Vector3 delta = previoutPanPoint - newPoint;
         Debug.Log($"_previous {previoutPanPoint} evtpoint {newPoint} delta {delta}");
         mainCamera.transform.localPosition += delta;
-        panVelocity = delta;
+        if(delta.magnitude > 0.1f)
+            panVelocity = delta;
         ClampCameara();
     }
 
@@ -193,7 +194,7 @@ public class CameraManager : MonoBehaviour
     
         if (panVelocity != Vector3.zero)
         {
-            panVelocity = Vector3.Lerp(panVelocity, Vector3.zero, Time.deltaTime);
+            panVelocity = Vector3.Lerp(panVelocity, Vector3.zero, Time.deltaTime * 5);
             mainCamera.transform.localPosition += panVelocity;
             ClampCameara();
         }

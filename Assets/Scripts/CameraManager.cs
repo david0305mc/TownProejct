@@ -11,7 +11,7 @@ public class CameraManager : MonoBehaviour
 
     private static Vector3 PositiveInfinityVector = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
     private int previousTouchCount;
-    private Vector3 previoutPanPoint;
+    private Vector3 previoursPanPoint;
     private Vector3 panVelocity;
     private float oldZoom;
 
@@ -19,6 +19,7 @@ public class CameraManager : MonoBehaviour
     private float oldPinchDist;
     private Vector3 touchPoint0;
     private Vector3 touchPoint1;
+    private Vector3 tapGroundStartPosition;
 
     private readonly float maxZoomFactor = 50;
     private readonly float minZoomFactor = 3;
@@ -95,8 +96,8 @@ public class CameraManager : MonoBehaviour
         int touchCount;
         bool isInEditor = false;
         bool touchCountChanged = false;
-        
-        bool canPan = false;
+        bool canPan;
+
         Vector2 touchPosition;
 
         if (Input.touchCount == 0)
@@ -125,7 +126,10 @@ public class CameraManager : MonoBehaviour
         
         if (touchCount != previousTouchCount)
         {
-            touchCountChanged = true;
+            if (touchCount > 0)
+            {
+                touchCountChanged = true;
+            }
         }
 
         if (isInEditor)
@@ -151,17 +155,22 @@ public class CameraManager : MonoBehaviour
             }
         }
 
-        
         canPan = touchCount > 0;
         previousTouchCount = touchCount;
 
         if (canPan)
         {
             Vector3 hitPoint = TryGetRaycastHitBaseGround(touchPosition);
-            if (!isPanningStarted)
+            if (touchCountChanged)
+            {
+                tapGroundStartPosition = hitPoint;
+                previoursPanPoint = hitPoint;
+            }
+
+            if (!isPanningStarted && (tapGroundStartPosition - hitPoint).magnitude > 2f)
             {
                 isPanningStarted = true;
-                previoutPanPoint = hitPoint;
+                previoursPanPoint = hitPoint;
             }
 
             if (isPanningStarted)
@@ -187,8 +196,8 @@ public class CameraManager : MonoBehaviour
 
     private void OnScenePan(Vector3 newPoint)
     {
-        Vector3 delta = previoutPanPoint - newPoint;
-        Debug.Log($"_previous {previoutPanPoint} evtpoint {newPoint} delta {delta}");
+        Vector3 delta = previoursPanPoint - newPoint;
+        Debug.Log($"_previous {previoursPanPoint} evtpoint {newPoint} delta {delta}");
         mainCamera.transform.localPosition += delta;
         if(delta.magnitude > 0.1f)
             panVelocity = delta;

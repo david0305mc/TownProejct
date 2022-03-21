@@ -15,10 +15,20 @@ public class CameraManager : MonoBehaviour
     private Vector3 panVelocity;
     private float oldZoom;
 
+    private bool pinchStarted;
+    private float oldPinchDist;
+    private Vector3 touchPoint0;
+    private Vector3 touchPoint1;
+
+    private readonly float maxZoomFactor = 50;
+    private readonly float minZoomFactor = 3;
+    private readonly float clampZoomOffset = 2.0f;
+
     private void Awake()
     {
         layerMaskGround = LayerMask.GetMask("GroundLayer");
         oldZoom = mainCamera.orthographicSize;
+        pinchStarted = false;
     }
 
     // Update is called once per frame
@@ -38,9 +48,45 @@ public class CameraManager : MonoBehaviour
             newZoom = newZoom - scrollAmount;
         }
 
+        if (Input.touchCount == 0 || Input.touchCount == 1)
+        {
+            pinchStarted = false;
+        }
+
+        if (Input.touchCount == 2)
+        {
+            touchPoint0 = TryGetRaycastHitBaseGround(Input.GetTouch(0).position);
+            touchPoint1 = TryGetRaycastHitBaseGround(Input.GetTouch(1).position);
+            float pinchDist = Vector3.Distance(touchPoint0, touchPoint1);
+
+            if (!pinchStarted)
+            {
+                oldPinchDist = pinchDist;
+                pinchStarted = true;
+            }
+            else
+            {
+                float delta = oldPinchDist - pinchDist;
+                newZoom = mainCamera.orthographicSize + delta / 2;
+            }
+        }
+
+        newZoom = Mathf.Clamp(newZoom, minZoomFactor, maxZoomFactor);
+
+        if (newZoom < minZoomFactor + clampZoomOffset)
+        {
+            newZoom = Mathf.Lerp(newZoom, this.minZoomFactor + clampZoomOffset, Time.deltaTime * 2);
+
+        }
+        else if (newZoom > maxZoomFactor - clampZoomOffset)
+        {
+            newZoom = Mathf.Lerp(newZoom, this.maxZoomFactor - clampZoomOffset, Time.deltaTime * 2);
+        }
+
         if (oldZoom != newZoom)
         {
             mainCamera.orthographicSize = newZoom;
+            oldZoom = newZoom;
         }
     }
             

@@ -13,18 +13,36 @@ public class CameraManager : MonoBehaviour
     private int previousTouchCount;
     private Vector3 previoutPanPoint;
     private Vector3 panVelocity;
+    private float oldZoom;
 
     private void Awake()
     {
         layerMaskGround = LayerMask.GetMask("GroundLayer");
+        oldZoom = mainCamera.orthographicSize;
     }
 
     // Update is called once per frame
     void Update()
     {
         UpdatePan();
+        UpdateZoom();
     }
 
+    void UpdateZoom()
+    {
+        float newZoom = mainCamera.orthographicSize;
+        //Editor
+        float scrollAmount = Input.GetAxis("Mouse ScrollWheel");
+        if (scrollAmount != 0)
+        {
+            newZoom = newZoom - scrollAmount;
+        }
+
+        if (oldZoom != newZoom)
+        {
+            mainCamera.orthographicSize = newZoom;
+        }
+    }
             
     private void UpdatePan()
     {

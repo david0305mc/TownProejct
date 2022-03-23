@@ -90,7 +90,7 @@ public class CameraManager : MonoBehaviour
             oldZoom = newZoom;
         }
     }
-            
+     
     private void UpdatePan()
     {
         int touchCount;

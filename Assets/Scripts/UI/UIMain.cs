@@ -17,7 +17,7 @@ public class UIMain : MonoBehaviour
     {
         shopBtn.onClick.AsObservable().Subscribe(_ =>
         {
-            Debug.Log("shopBtn subscribe");
+            MPopupManager.Inst.ShowShopMainPopup();
         });
     }
 }

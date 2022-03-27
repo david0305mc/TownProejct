@@ -568,7 +568,7 @@ GameObject:
   - component: {fileID: 114870898374130856}
   - component: {fileID: -7272737851980764416}
   m_Layer: 5
-  m_Name: UIShop
+  m_Name: ShopMainPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -646,6 +646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6ede3a2e599eac4880f7912bc26ecd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  closeBtn: {fileID: 114041430242010988}
 --- !u!1 &1818498177726950
 GameObject:
   m_ObjectHideFlags: 0

@@ -647,6 +647,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closeBtn: {fileID: 114041430242010988}
+  shopMainItemPrefab: {fileID: 1855648621552052668, guid: 1264d201422920a4c8c987a3cccdd880, type: 3}
+  scrollRect: {fileID: 114389279893092812}
 --- !u!1 &1818498177726950
 GameObject:
   m_ObjectHideFlags: 0

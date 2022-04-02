@@ -7,6 +7,7 @@ public class MPopupManager : MonoBehaviour
     public static MPopupManager Inst;
 
     [SerializeField] private GameObject shopUIPrefab;
+    [SerializeField] private GameObject uiShopSubPrefab;
     [SerializeField] private GameObject popupRoot;
 
     private List<MPopupBase> popupList;
@@ -22,7 +23,12 @@ public class MPopupManager : MonoBehaviour
         ShowPopup(shopUIPrefab);
     }
 
-    public MPopupBase ShowPopup(GameObject prefab)
+    public void ShowShopSubPopup()
+    {
+        ShowPopup(uiShopSubPrefab);
+    }
+
+    private MPopupBase ShowPopup(GameObject prefab)
     {
         MPopupBase popupBase = MUtilities.CreatePopup<MPopupBase>(prefab, popupRoot, true).GetComponent<MPopupBase>();
         popupList.Add(popupBase);

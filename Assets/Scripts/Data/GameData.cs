@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameData : MonoBehaviour
 {
-    public enum Category
+    public enum ShopCategory
     {
         ARMY,
         DEFENCE,
@@ -12,5 +12,27 @@ public class GameData : MonoBehaviour
         OTHER,
         TREASURE,
         DECORATIONS
+    }
+
+    public enum ShopSubCategory
+    {
+        BARRACK,
+        BOAT,
+        BUILDER_HUT,
+        CAMP,
+        CANNON,
+        ELIXIR_COLLECTOR,
+        ELIXIR_STORAGE,
+        GEMS,
+        GOLD_MINE,
+        GOLD_STORAGE,
+        TOWER,
+        TOWN_CENTER,
+        TREE1,
+        TREE2,
+        TREE3,
+        WINDMILL,
+        WALL
+
     }
 }

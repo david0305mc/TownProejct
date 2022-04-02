@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopMainPopup : MPopupBase
+public class ShopSubPopup : MPopupBase
 {
     // prefab
-    [SerializeField] private ShopMainItem shopMainItemPrefab;
+    [SerializeField] private ShopSubItem shopSubItemPrefab;
 
 
     // reference
@@ -26,10 +26,8 @@ public class ShopMainPopup : MPopupBase
 
         for (int i = 0; i < 5; i++)
         {
-            var item = MUtilities.CreateInstance(shopMainItemPrefab.gameObject, scrollRect.content.gameObject, true).GetComponent<ShopMainItem>();
-            item.SetCategory(categories[i], ()=> {
-                MPopupManager.Inst.ShowShopSubPopup();
-            });
+            var item = MUtilities.CreateInstance(shopSubItemPrefab.gameObject, scrollRect.content.gameObject, true).GetComponent<ShopSubItem>();
+            //item.SetCategory(categories[i]);
 
         }
     }

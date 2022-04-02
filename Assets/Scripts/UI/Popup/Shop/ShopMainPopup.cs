@@ -27,8 +27,9 @@ public class ShopMainPopup : MPopupBase
         for (int i = 0; i < 5; i++)
         {
             var item = MUtilities.CreateInstance(shopMainItemPrefab.gameObject, scrollRect.content.gameObject, true).GetComponent<ShopMainItem>();
-            item.SetCategory(categories[i], ()=> {
-                MPopupManager.Inst.ShowShopSubPopup();
+            item.SetCategory(categories[i], (category)=> {
+                var popup = MPopupManager.Inst.ShowShopSubPopup().GetComponent<ShopSubPopup>();
+                popup.SetData(category);
             });
 
         }

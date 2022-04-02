@@ -13,22 +13,50 @@ public class ShopSubPopup : MPopupBase
     [SerializeField] private ScrollRect scrollRect;
 
 
-    private void Start()
+    public void SetData(GameData.ShopCategory category)
     {
-        GameData.ShopCategory[] categories = new GameData.ShopCategory[] {
-            GameData.ShopCategory.ARMY,
-            GameData.ShopCategory.DECORATIONS,
-            GameData.ShopCategory.DEFENCE,
-            GameData.ShopCategory.OTHER,
-            GameData.ShopCategory.RESOURCES,
-            GameData.ShopCategory.TREASURE
-        };
+        GameData.ShopSubCategory[] subCategory = new GameData.ShopSubCategory[0];
 
-        for (int i = 0; i < 5; i++)
+        switch (category)
         {
-            var item = MUtilities.CreateInstance(shopSubItemPrefab.gameObject, scrollRect.content.gameObject, true).GetComponent<ShopSubItem>();
-            //item.SetCategory(categories[i]);
+            case GameData.ShopCategory.ARMY:
+                {
+                    subCategory = new GameData.ShopSubCategory[] { GameData.ShopSubCategory.BARRACK, GameData.ShopSubCategory.CAMP, GameData.ShopSubCategory.BOAT };
+                }
+                break;
+            case GameData.ShopCategory.DECORATIONS:
+                {
+                    subCategory = new GameData.ShopSubCategory[] { GameData.ShopSubCategory.TREE1, GameData.ShopSubCategory.TREE2, GameData.ShopSubCategory.TREE3 };
+                }
+                break;
+            case GameData.ShopCategory.DEFENCE:
+                {
+                    subCategory = new GameData.ShopSubCategory[] { GameData.ShopSubCategory.CANNON, GameData.ShopSubCategory.TOWER};
+                }
+                break;
+            case GameData.ShopCategory.OTHER:
+                {
+                    subCategory = new GameData.ShopSubCategory[] { GameData.ShopSubCategory.TOWN_CENTER, GameData.ShopSubCategory.BUILDER_HUT, GameData.ShopSubCategory.WALL };
+                }
+                break;
+            case GameData.ShopCategory.RESOURCES:
+                {
+                    subCategory = new GameData.ShopSubCategory[] { GameData.ShopSubCategory.ELIXIR_COLLECTOR, GameData.ShopSubCategory.ELIXIR_STORAGE, GameData.ShopSubCategory.GOLD_MINE, GameData.ShopSubCategory.WINDMILL};
+                }
+                break;
+            case GameData.ShopCategory.TREASURE:
+                {
+                    subCategory = new GameData.ShopSubCategory[] { GameData.ShopSubCategory.GEMS };
+                }
+                break;
 
         }
+
+        for (int i = 0; i < subCategory.Length; i++)
+        {
+            var item = MUtilities.CreateInstance(shopSubItemPrefab.gameObject, scrollRect.content.gameObject, true).GetComponent<ShopSubItem>();
+            item.SetSubCategory(subCategory[i]);
+        }
+
     }
 }

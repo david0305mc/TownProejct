@@ -20,7 +20,7 @@ public class ShopMainItem : MonoBehaviour
     /* private variables */
     private GameData.ShopCategory _category;
 
-    public void SetCategory(GameData.ShopCategory category, UnityEngine.Events.UnityAction _action)
+    public void SetCategory(GameData.ShopCategory category, UnityEngine.Events.UnityAction<GameData.ShopCategory> _action)
     {
         this._category = category;
         switch (this._category)
@@ -51,6 +51,6 @@ public class ShopMainItem : MonoBehaviour
                 break;
         }
         slotButton.onClick.RemoveAllListeners();
-        slotButton.onClick.AddListener(_action);
+        slotButton.onClick.AddListener(()=> { _action(category); });
     }
 }

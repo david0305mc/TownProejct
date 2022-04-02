@@ -213,6 +213,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e0711378ab8294a966be8cddc0b91b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BarrackSprite: {fileID: 21300000, guid: 9b31a37f84da245ab9196afca50193be, type: 3}
+  BoatSprite: {fileID: 21300000, guid: e602c8186a6a4478d8fd9d4a18eddf95, type: 3}
+  BuilderHutSprite: {fileID: 21300000, guid: 9b362156b32c8490991730fce97a3135, type: 3}
+  CampSprite: {fileID: 21300000, guid: 24281285aa89e48b5beb700038ac4517, type: 3}
+  CannonSprite: {fileID: 21300000, guid: 0cebb485fc10049249571e2831af9294, type: 3}
+  ElixirCollectorSprite: {fileID: 21300000, guid: 74992e226f4234e7ab4a141db866fdca, type: 3}
+  ElixirStorageSprite: {fileID: 21300000, guid: e152cb780ed644a238901e9bba9f68ab, type: 3}
+  GemsSprite: {fileID: 21300000, guid: 3cb98d18cda6b44748948532ea0897da, type: 3}
+  GoldMineSprite: {fileID: 21300000, guid: cf4ca475dc8db4e7ca23e08021e5e988, type: 3}
+  GoldStorageSprite: {fileID: 21300000, guid: e0267bf57728c43ffb6d104f09592ba1, type: 3}
+  TowerSprite: {fileID: 21300000, guid: 11361f6c487624448ab3931a680e82cf, type: 3}
+  TownCenterSprite: {fileID: 21300000, guid: 9e5566e678da14dc2b8db939bdec0478, type: 3}
+  Tree1Sprite: {fileID: 21300000, guid: c81487f5c3f194aaf898da303a78a334, type: 3}
+  Tree2Sprite: {fileID: 21300000, guid: 7f52a0d7894d54e77bb1c25059c773f2, type: 3}
+  WindMillSprite: {fileID: 21300000, guid: a65ee4e6feb8b4dbdb3398a8c1a2e0ad, type: 3}
+  WallSprite: {fileID: 21300000, guid: 71964cee2744c4897959828431d40578, type: 3}
+  Tree3Sprite: {fileID: 21300000, guid: 7f52a0d7894d54e77bb1c25059c773f2, type: 3}
+  Name: {fileID: 7048499968263638228}
+  Image: {fileID: 7048486516368028664}
 --- !u!1 &6939471788737496926
 GameObject:
   m_ObjectHideFlags: 0

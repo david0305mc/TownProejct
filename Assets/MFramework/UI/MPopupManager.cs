@@ -18,14 +18,14 @@ public class MPopupManager : MonoBehaviour
         popupList = new List<MPopupBase>();
     }
 
-    public void ShowShopMainPopup()
+    public MPopupBase ShowShopMainPopup()
     {
-        ShowPopup(shopUIPrefab);
+        return ShowPopup(shopUIPrefab);
     }
 
-    public void ShowShopSubPopup()
+    public MPopupBase ShowShopSubPopup()
     {
-        ShowPopup(uiShopSubPrefab);
+        return ShowPopup(uiShopSubPrefab);
     }
 
     private MPopupBase ShowPopup(GameObject prefab)

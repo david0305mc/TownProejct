@@ -35,4 +35,24 @@ public class GameData : MonoBehaviour
         WALL
 
     }
+
+    public enum RenderingLayer
+    {
+        GROUND = 0,
+        SHADOW = 1,
+        SPRITE = 2
+    }
+
+
+    public enum Direction
+    {
+        BOTTOM,
+        BOTTOM_RIGHT,
+        RIGHT,
+        TOP_RIGHT,
+        TOP,
+        TOP_LEFT,
+        LEFT,
+        BOTTOM_LEFT
+    }
 }

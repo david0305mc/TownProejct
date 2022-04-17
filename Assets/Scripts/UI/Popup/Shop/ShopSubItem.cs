@@ -183,7 +183,7 @@ public class ShopSubItem : MonoBehaviour
                 break;
         }
 
-        ////ItemsCollection.ItemData itemData = Items.GetItem (itemId);
+        //ItemsCollection.ItemData itemData = Items.GetItem(itemId);
         ////Vector3 freePosition = GroundManager.instance.GetRandomFreePositionForItem (itemData.gridSize, itemData.gridSize);
 
         //BaseItemScript item = SceneManager.instance.AddItem(itemId, false, true);

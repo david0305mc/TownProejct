@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Sprite Collection", menuName = "Scriptable Object/Sprite Collection", order = int.MaxValue)]
+[CreateAssetMenu(fileName = "SpriteCollection", menuName = "Scriptable Object/SpriteCollection", order = int.MaxValue)]
 public class SpriteCollection : ScriptableObject
 {
     [System.Serializable]

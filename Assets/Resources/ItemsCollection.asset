@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ItemsCollection
   m_EditorClassIdentifier: 
   list:
-  - id: 8474
+  - id: 8833
     name: Barrack
     thumb: {fileID: 0}
     gridSize: 4

@@ -7,10 +7,10 @@ public class SceneManager : MonoBehaviour
     public static SceneManager instance;
 	// prefab
 	public GameObject BaseItem;
+    public Material RenderQuadMaterial;
 
-
-	// object ref
-	public GameObject ItemsContainer;
+    // object ref
+    public GameObject ItemsContainer;
 
 	private Dictionary<int, BaseItemScript> _itemInstances;
 

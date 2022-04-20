@@ -275,6 +275,7 @@ GameObject:
   - component: {fileID: 263722903}
   - component: {fileID: 263722904}
   - component: {fileID: 263722905}
+  - component: {fileID: 263722906}
   m_Layer: 0
   m_Name: Field
   m_TagString: Untagged
@@ -323,7 +324,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BaseItem: {fileID: 5781569063630325323, guid: 222f21c5634a2fc4398d1836c94f0b34, type: 3}
+  RenderQuadMaterial: {fileID: 0}
   ItemsContainer: {fileID: 529244218}
+--- !u!114 &263722906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263722902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4155f9131423e4f41811871298749a82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &384641953
 GameObject:
   m_ObjectHideFlags: 0

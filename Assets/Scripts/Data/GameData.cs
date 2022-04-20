@@ -42,7 +42,13 @@ public class GameData : MonoBehaviour
         SHADOW = 1,
         SPRITE = 2
     }
-
+    public enum State
+    {
+        IDLE,
+        WALK,
+        ATTACK,
+        DESTROYED
+    }
 
     public enum Direction
     {

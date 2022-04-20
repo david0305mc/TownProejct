@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class MUtilities : MonoBehaviour
@@ -21,5 +22,32 @@ public class MUtilities : MonoBehaviour
         }
         inst.gameObject.SetActive(isActive);
         return inst;
+    }
+    public static string CleanStringForFloat(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return "";
+
+        if (Regex.Match(input, @"^-?[0-9]*(?:\.[0-9]*)?$").Success)
+            return input;
+        else
+        {
+            //Debug.Log("Error, Bad Float: " + input);
+            return "0";
+        }
+    }
+
+    public static string CleanStringForInt(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return "";
+
+        if (Regex.Match(input, "([-+]?[0-9]+)").Success)
+            return input;
+        else
+        {
+            //Debug.Log("Error, Bad Int: " + input);
+            return "0";
+        }
     }
 }

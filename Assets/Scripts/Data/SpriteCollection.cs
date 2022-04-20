@@ -92,4 +92,43 @@ public class SpriteCollection : ScriptableObject
     }
 
     public List<SpriteData> list = new List<SpriteData>();
+
+    public void AddNewSprite()
+    {
+        SpriteData newSpriteData = new SpriteData();
+        newSpriteData.id = this._GetUnusedId();
+        newSpriteData.name = "New Sprite";
+        this.list.Add(newSpriteData);
+    }
+
+    public void RemoveSprite(int index)
+    {
+        list.RemoveAt(index);
+    }
+
+    public SpriteData GetSprite(int id)
+    {
+        for (int index = 0; index < this.list.Count; index++)
+        {
+            if (id == list[index].id)
+            {
+                return list[index];
+            }
+        }
+        return null;
+    }
+
+    private int _GetUnusedId()
+    {
+        int id = Random.Range(100, 999);
+        for (int index = 0; index < this.list.Count; index++)
+        {
+            if (id == list[index].id)
+            {
+                return _GetUnusedId();
+            }
+        }
+        return id;
+    }
+
 }

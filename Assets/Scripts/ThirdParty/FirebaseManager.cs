@@ -10,14 +10,56 @@ using Firebase.Extensions;
 public class FirebaseManager : MonoBehaviour
 {
     [SerializeField] private Text text;
-    
+
     public Firebase.FirebaseApp app { get; private set; }
     public Firebase.Auth.FirebaseAuth auth { get; private set; }
     public FirebaseUser user { get; private set; }
+    public bool IsGoogleSignIn { get; private set; } = false;
     //public FG_FirebaseAuth auth;
     // Start is called before the first frame upda
     void Start()
     {
+        //CheckFirebaseDependencies();
+    }
+
+    private void TestGoogleSignIn()
+    {
+        if (GoogleSignIn.Configuration == null)
+        {
+            GoogleSignIn.Configuration = new GoogleSignInConfiguration
+            {
+                RequestIdToken = true,
+                // Copy this value from the google-service.json file.
+                // oauth_client with type == 3
+                WebClientId = "35089722117-ai64it5nl0h144rba0imsgdt57l5vl8r.apps.googleusercontent.com"
+            };
+        }
+        GoogleSignIn.Configuration.UseGameSignIn = false;
+        GoogleSignIn.Configuration.RequestIdToken = true;
+        var signIn = GoogleSignIn.DefaultInstance.SignIn();
+        signIn.ContinueWith(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.Log("google account is canceled");
+            }
+            else if (task.IsFaulted)
+            {
+                Debug.Log("google account is faulted");
+            }
+            else
+            {
+                Debug.Log("google account is success");
+            }
+        });
+    }
+    private void TestGoogleSignOut()
+    {
+        GoogleSignIn.DefaultInstance.SignOut();
+    }
+    private void CheckFirebaseDependencies()
+    {
+        Debug.Log("CheckFirebaseDependencies");
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
             var dependencyStatus = task.Result;
             if (dependencyStatus == Firebase.DependencyStatus.Available)
@@ -36,22 +78,34 @@ public class FirebaseManager : MonoBehaviour
             }
         });
     }
+
     void InitializeFirebase()
     {
+        Debug.Log("InitializeFirebase");
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         auth.StateChanged -= AuthStateChanged;
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
+
+        if (user != null)
+        {
+            Debug.Log("Try Auto Login");
+            user.TokenAsync(true).ContinueWithOnMainThread(item => {
+                UnityEngine.Debug.Log("Auto Signed in " + user.UserId);
+            });
+        }
     }
 
     void AuthStateChanged(object sender, System.EventArgs eventArgs)
     {
+        Debug.Log("AuthStateChanged");
         if (auth.CurrentUser != user)
         {
             bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null;
             if (!signedIn && user != null)
             {
                 UnityEngine.Debug.Log("Signed out " + user.UserId);
+                
             }
             user = auth.CurrentUser;
             if (signedIn)
@@ -64,8 +118,16 @@ public class FirebaseManager : MonoBehaviour
 
     public void OnClickBtnLogOut()
     {
-        auth.SignOut();
-        GoogleSignIn.DefaultInstance.SignOut();
+        if(auth != null)
+            auth.SignOut();
+
+        if (IsGoogleSignIn)
+        {
+            GoogleSignIn.DefaultInstance.SignOut();
+            IsGoogleSignIn = false;
+        }
+        PlayerPrefs.DeleteAll();
+        CheckFirebaseDependencies();
     }
 
     public void OnClickBtnGoogleLogin()
@@ -85,22 +147,21 @@ public class FirebaseManager : MonoBehaviour
                 WebClientId = "35089722117-ai64it5nl0h144rba0imsgdt57l5vl8r.apps.googleusercontent.com"
             };
         }
-
+        
         var signIn = GoogleSignIn.DefaultInstance.SignIn();
         signIn.ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled)
             {
                 Debug.Log("google account is canceled");
-                gameObject.SetActive(true);
             }
             else if (task.IsFaulted)
             {
                 Debug.Log("google account is faulted");
-                gameObject.SetActive(true);
             }
             else
             {
+                IsGoogleSignIn = true;
                 Firebase.Auth.Credential credential = Firebase.Auth.GoogleAuthProvider.GetCredential(signIn.Result.IdToken, signIn.Result.AuthCode);
                 auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
                 {
@@ -115,9 +176,8 @@ public class FirebaseManager : MonoBehaviour
                         return;
                     }
 
-                    Firebase.Auth.FirebaseUser newUser = task.Result;
-                    Debug.LogFormat("User signed in successfully: {0} ({1})",
-                        newUser.DisplayName, newUser.UserId);
+                    user = task.Result;
+                    Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.UserId);
                 });
             }
         });

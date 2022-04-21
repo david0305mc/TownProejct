@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/FirebaseTest.unity
-    guid: e71fe1b93ac42a847a34c19837341714
+    path: Assets/SignInSample/MainScene.unity
+    guid: 4dbc020c6ee6d47e2a668e83cc5ee276
   m_configObjects: {}

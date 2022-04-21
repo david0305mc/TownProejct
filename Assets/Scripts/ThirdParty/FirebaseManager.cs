@@ -39,6 +39,7 @@ public class FirebaseManager : MonoBehaviour
     void InitializeFirebase()
     {
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        auth.StateChanged -= AuthStateChanged;
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
     }
@@ -62,8 +63,9 @@ public class FirebaseManager : MonoBehaviour
     }
 
     public void OnClickBtnLogOut()
-    { 
-        
+    {
+        auth.SignOut();
+        GoogleSignIn.DefaultInstance.SignOut();
     }
 
     public void OnClickBtnGoogleLogin()

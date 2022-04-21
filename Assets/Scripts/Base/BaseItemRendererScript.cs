@@ -27,16 +27,54 @@ public class BaseItemRendererScript : MonoBehaviour
         this._renderQuads = new List<RenderQuadScript>();
     }
 
+    public void AddRenderQuad(SpriteCollection.TextureData textureData, int layer)
+    {
+        if (textureData == null)
+        {
+            return;
+        }
+
+        if (textureData.texture == null)
+        {
+            return;
+        }
+
+        //RenderQuadScript renderQuadInstance = Utilities.CreateRenderQuad();
+        //renderQuadInstance.transform.SetParent(this.RenderQuadsContainer.transform);
+
+        ////POSITIONING AND SCALING
+        //Vector3 defaultImgSize = new Vector3(1.4142f, 1.4142f, 1.4142f) * 4 * textureData.scale / 100.0f / textureData.parent.gridSize;
+        //float heightFactor = ((float)textureData.texture.height / (float)textureData.texture.width) * ((float)textureData.numberOfColumns / textureData.numberOfRows);
+
+        //float offsetX = (1.414f / 256.0f) * textureData.offsetX * 4 / textureData.parent.gridSize;
+        //float offsetY = (1.414f / 256.0f) * textureData.offsetY * 4 / textureData.parent.gridSize;
+        //renderQuadInstance.transform.localPosition = new Vector3(offsetX, offsetY, 0);
+        //renderQuadInstance.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        //renderQuadInstance.transform.localScale = new Vector3(defaultImgSize.x, defaultImgSize.x * heightFactor, 1);
+
+        //renderQuadInstance.SetData(textureData, layer);
+        //renderQuadInstance.GetComponent<TextureSheetAnimationScript>()
+        //    .SetTextureSheetData(textureData.numberOfColumns, textureData.numberOfRows, textureData.framesCount, textureData.fps);
+
+        //this._renderQuads.Add(renderQuadInstance);
+
+        //if (layer == 0)
+        //{
+        //    //ground patch layer
+        //    this._groundPatch = renderQuadInstance;
+        //}
+    }
+
     public void UpdateRenderQuads()
     {
-        //SpriteCollection.TextureData[] textureDataList = this._GetCurrentImageLayers();
-        //if (textureDataList != null)
-        //{
-        //    for (int index = 0; index < textureDataList.Length; index++)
-        //    {
-        //        this.AddRenderQuad(textureDataList[index], index);
-        //    }
-        //}
+        SpriteCollection.TextureData[] textureDataList = this._GetCurrentImageLayers();
+        if (textureDataList != null)
+        {
+            for (int index = 0; index < textureDataList.Length; index++)
+            {
+                this.AddRenderQuad(textureDataList[index], index);
+            }
+        }
 
         ////flip renderer for topleft, bottomleft, left
         //if (BaseItem.itemData.configuration.isCharacter)
@@ -50,5 +88,27 @@ public class BaseItemRendererScript : MonoBehaviour
         //        this._FlipRenderers(false);
         //    }
         //}
+    }
+    private SpriteCollection.TextureData[] _GetCurrentImageLayers()
+    {
+        List<SpriteCollection.TextureData> layers = new List<SpriteCollection.TextureData>();
+
+        GameData.State state = BaseItem.state;
+        GameData.Direction direction = BaseItem.direction;
+
+        List<int> spriteIds = BaseItem.itemData.GetSprites(state);
+
+        if (spriteIds == null || spriteIds.Count == 0)
+        {
+            return null;
+        }
+
+        for (int index = 0; index < spriteIds.Count; index++)
+        {
+            SpriteCollection.SpriteData sprite = Sprites.GetSprite(spriteIds[index]);
+            layers.Add(sprite.GetTextureData(direction));
+        }
+
+        return layers.ToArray();
     }
 }

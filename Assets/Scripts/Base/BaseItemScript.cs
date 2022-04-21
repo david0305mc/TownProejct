@@ -6,6 +6,7 @@ public class BaseItemScript : MonoBehaviour
 {
     public int instanceId;
     public GameData.State state;
+	public GameData.Direction direction;
 	//public BaseItemRendererScript Renderer;
 
 	public ItemsCollection.ItemData itemData;

@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "35089722117",
+    "project_id": "clovertown-67087498",
+    "storage_bucket": "clovertown-67087498.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35089722117:android:79b81cf920645d7247a56c",
+        "android_client_info": {
+          "package_name": "com.flerogames.clovertown"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35089722117-ndc2niclael2bbnnh6aputsjv36n4va1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flerogames.clovertown",
+            "certificate_hash": "66e6f778d73fa09929c50819f96660d18e3593ff"
+          }
+        },
+        {
+          "client_id": "35089722117-p7hvur1sqcphqjs44c88pp5qm5so3nh7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flerogames.clovertown",
+            "certificate_hash": "4030265dd76d0059b1bec5ebf04af3f26d9a03ae"
+          }
+        },
+        {
+          "client_id": "35089722117-ai64it5nl0h144rba0imsgdt57l5vl8r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0vcp8j6MYK6TlQWg8H_Z6IWXmIZB3Jhg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35089722117-ai64it5nl0h144rba0imsgdt57l5vl8r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "35089722117-ctpmau18o47rpadouviig1ov8c8mlikm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flerogames.clovertown",
+                "app_store_id": "1572568543"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

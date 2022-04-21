@@ -186,7 +186,7 @@ public class ShopSubItem : MonoBehaviour
         //ItemsCollection.ItemData itemData = Items.GetItem(itemId);
         ////Vector3 freePosition = GroundManager.instance.GetRandomFreePositionForItem (itemData.gridSize, itemData.gridSize);
 
-        BaseItemScript item = SceneManager.instance.AddItem(itemId, false, true);
+        BaseItemScript item = Game.SceneManager.instance.AddItem(itemId, false, true);
         //item.SetPosition (freePosition);
         //if (item != null)
         //{

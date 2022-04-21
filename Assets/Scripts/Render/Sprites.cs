@@ -39,7 +39,7 @@ public class Sprites : MonoBehaviour
         Material material = null;
         if (!textureMaterialMap.TryGetValue(texture, out material))
         {
-            material = Instantiate(SceneManager.instance.RenderQuadMaterial) as Material;
+            material = Instantiate(Game.SceneManager.instance.RenderQuadMaterial) as Material;
             material.mainTexture = texture;
             textureMaterialMap.Add(texture, material);
         }

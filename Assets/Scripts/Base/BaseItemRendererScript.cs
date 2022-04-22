@@ -9,6 +9,7 @@ public class BaseItemRendererScript : MonoBehaviour
     public GameObject RenderQuadsContainer;
 
     private List<RenderQuadScript> _renderQuads;
+    private RenderQuadScript _groundPatch;
     public void Init()
     {
         this.Clear();
@@ -39,31 +40,28 @@ public class BaseItemRendererScript : MonoBehaviour
             return;
         }
 
-        //RenderQuadScript renderQuadInstance = MUtilities.CREATERE
-        //RenderQuadScript renderQuadInstance = Utilities.CreateRenderQuad();
-        //renderQuadInstance.transform.SetParent(this.RenderQuadsContainer.transform);
+        RenderQuadScript renderQuadInstance = GameUtil.CreateRenderQuad();
+        renderQuadInstance.transform.SetParent(this.RenderQuadsContainer.transform);
 
-        ////POSITIONING AND SCALING
-        //Vector3 defaultImgSize = new Vector3(1.4142f, 1.4142f, 1.4142f) * 4 * textureData.scale / 100.0f / textureData.parent.gridSize;
-        //float heightFactor = ((float)textureData.texture.height / (float)textureData.texture.width) * ((float)textureData.numberOfColumns / textureData.numberOfRows);
+        //POSITIONING AND SCALING
+        Vector3 defaultImgSize = new Vector3(1.4142f, 1.4142f, 1.4142f) * 4 * textureData.scale / 100.0f / textureData.parent.gridSize;
+        float heightFactor = ((float)textureData.texture.height / (float)textureData.texture.width) * ((float)textureData.numberOfColumns / textureData.numberOfRows);
 
-        //float offsetX = (1.414f / 256.0f) * textureData.offsetX * 4 / textureData.parent.gridSize;
-        //float offsetY = (1.414f / 256.0f) * textureData.offsetY * 4 / textureData.parent.gridSize;
-        //renderQuadInstance.transform.localPosition = new Vector3(offsetX, offsetY, 0);
-        //renderQuadInstance.transform.localRotation = Quaternion.Euler(Vector3.zero);
-        //renderQuadInstance.transform.localScale = new Vector3(defaultImgSize.x, defaultImgSize.x * heightFactor, 1);
+        float offsetX = (1.414f / 256.0f) * textureData.offsetX * 4 / textureData.parent.gridSize;
+        float offsetY = (1.414f / 256.0f) * textureData.offsetY * 4 / textureData.parent.gridSize;
 
-        //renderQuadInstance.SetData(textureData, layer);
-        //renderQuadInstance.GetComponent<TextureSheetAnimationScript>()
-        //    .SetTextureSheetData(textureData.numberOfColumns, textureData.numberOfRows, textureData.framesCount, textureData.fps);
+        renderQuadInstance.transform.localPosition = new Vector3(offsetX, offsetY, 0);
+        renderQuadInstance.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        renderQuadInstance.transform.localScale = new Vector3(defaultImgSize.x, defaultImgSize.x * heightFactor, 1);
 
-        //this._renderQuads.Add(renderQuadInstance);
+        renderQuadInstance.SetData(textureData, layer);
+        renderQuadInstance.GetComponent<TextureSheetAnimationScript>().SetTextureSheetData(textureData.numberOfColumns, textureData.numberOfRows, textureData.framesCount, textureData.fps);
+        _renderQuads.Add(renderQuadInstance);
 
-        //if (layer == 0)
-        //{
-        //    //ground patch layer
-        //    this._groundPatch = renderQuadInstance;
-        //}
+        if (layer == 0)
+        {
+            _groundPatch = renderQuadInstance;
+        }
     }
 
     public void UpdateRenderQuads()

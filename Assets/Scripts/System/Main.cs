@@ -10,5 +10,6 @@ public class Main : MonoBehaviour
     {
         instance = this;
         Items.LoadItems();
+        Sprites.LoadSprites();
     }
 }

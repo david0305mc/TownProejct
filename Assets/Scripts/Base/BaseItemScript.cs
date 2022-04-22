@@ -7,7 +7,7 @@ public class BaseItemScript : MonoBehaviour
     public int instanceId;
     public GameData.State state;
 	public GameData.Direction direction;
-	//public BaseItemRendererScript Renderer;
+	public BaseItemRendererScript Renderer;
 
 	public ItemsCollection.ItemData itemData;
 
@@ -15,8 +15,8 @@ public class BaseItemScript : MonoBehaviour
 	{
 		this.itemData = Items.GetItem(itemId);
 		this.gameObject.name = itemData.name + " [INSTANCE]";
-		//this.Renderer.Init();
-		this.SetSize(Vector3.one * itemData.gridSize);
+        this.Renderer.Init();
+        this.SetSize(Vector3.one * itemData.gridSize);
 		this.SetPosition(new Vector3(posX, 0, posZ));
 	}
 	public void SetSize(Vector3 size)

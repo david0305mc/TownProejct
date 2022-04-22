@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RenderQuadScript : MonoBehaviour
 {
-    public MeshFilter MeshFilter { get; set; }
-    public MeshRenderer MeshRenderer { get; set; }
+    public MeshFilter MeshFilter;
+    [SerializeField] private MeshRenderer MeshRenderer;
 
     public void SetData(SpriteCollection.TextureData textureData, int layer)
     {

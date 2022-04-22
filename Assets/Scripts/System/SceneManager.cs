@@ -10,6 +10,7 @@ namespace Game
 		// prefab
 		public GameObject BaseItem;
 		public Material RenderQuadMaterial;
+		public GameObject RenderQuad;
 
 		// object ref
 		public GameObject ItemsContainer;

@@ -39,6 +39,7 @@ public class BaseItemRendererScript : MonoBehaviour
             return;
         }
 
+        //RenderQuadScript renderQuadInstance = MUtilities.CREATERE
         //RenderQuadScript renderQuadInstance = Utilities.CreateRenderQuad();
         //renderQuadInstance.transform.SetParent(this.RenderQuadsContainer.transform);
 

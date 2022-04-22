@@ -325,6 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseItem: {fileID: 5781569063630325323, guid: 222f21c5634a2fc4398d1836c94f0b34, type: 3}
   RenderQuadMaterial: {fileID: 0}
+  RenderQuad: {fileID: 0}
   ItemsContainer: {fileID: 529244218}
 --- !u!114 &263722906
 MonoBehaviour:

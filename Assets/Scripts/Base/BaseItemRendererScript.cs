@@ -96,7 +96,7 @@ public class BaseItemRendererScript : MonoBehaviour
         GameData.Direction direction = BaseItem.direction;
 
         List<int> spriteIds = BaseItem.itemData.GetSprites(state);
-
+        
         if (spriteIds == null || spriteIds.Count == 0)
         {
             return null;

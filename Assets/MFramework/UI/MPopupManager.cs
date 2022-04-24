@@ -8,6 +8,7 @@ public class MPopupManager : MonoBehaviour
 
     [SerializeField] private GameObject shopUIPrefab;
     [SerializeField] private GameObject uiShopSubPrefab;
+    [SerializeField] private GameObject itemOptionUIPrefab;
     [SerializeField] private GameObject popupRoot;
 
     private List<MPopupBase> popupList;
@@ -26,6 +27,20 @@ public class MPopupManager : MonoBehaviour
     public MPopupBase ShowShopSubPopup()
     {
         return ShowPopup(uiShopSubPrefab);
+    }
+
+    public MPopupBase ShowItemOptionUI()
+    {
+        return ShowPopup(itemOptionUIPrefab);
+    }
+
+    public void CloseAllWindow()
+    {
+        foreach (MPopupBase popup in popupList)
+        {
+            popup.Close();
+        }
+        popupList = new List<MPopupBase>();
     }
 
     private MPopupBase ShowPopup(GameObject prefab)

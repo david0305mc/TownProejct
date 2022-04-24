@@ -1,13 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraManager : MonoBehaviour
 {
+    public class CameraEvent
+    {
+        public Vector3 point;
+        public BaseItemScript baseItem;
+    }
 
+    public static CameraManager instance;
+
+    public EventSystem EventSystem;
     [SerializeField] private Camera mainCamera;
     private int layerMaskGround;
+    private int layerMaskBaseItem;
     private bool isPanningStarted;
+    private BaseItemScript selectedBaseItem;
 
     private static Vector3 PositiveInfinityVector = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
     private int previousTouchCount;
@@ -25,9 +36,13 @@ public class CameraManager : MonoBehaviour
     private readonly float minZoomFactor = 3;
     private readonly float clampZoomOffset = 2.0f;
 
+    public UnityEngine.Events.UnityAction<CameraEvent> TapItemAction { get; set; }
+
     private void Awake()
     {
+        instance = this;
         layerMaskGround = LayerMask.GetMask("GroundLayer");
+        layerMaskBaseItem = LayerMask.GetMask("BaseItemLayer");
         oldZoom = mainCamera.orthographicSize;
         pinchStarted = false;
     }
@@ -35,8 +50,57 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this.IsUsingUI())
+        {
+            return;
+        }
         UpdatePan();
         UpdateZoom();
+        UpdateBaseItemTap();
+    }
+
+    public bool IsUsingUI()
+    {
+        //if (this._isDraggingBaseItem)
+        //{
+        //    return false;
+        //}
+
+        if (isPanningStarted)
+        {
+            return false;
+        }
+
+        return EventSystem.IsPointerOverGameObject() || EventSystem.IsPointerOverGameObject(0);
+    }
+
+    private void UpdateBaseItemTap()
+    {
+        if (!Input.GetMouseButtonUp(0))
+        {
+            return;
+        }
+
+        if (isPanningStarted)
+        {
+            return;
+        }
+
+        BaseItemScript obj = TryGetRaycastHit<BaseItemScript>(Input.mousePosition, layerMaskBaseItem);
+        if (obj != default)
+        {
+            selectedBaseItem = obj;            
+            TapItemAction?.Invoke( new CameraEvent() { baseItem = obj, point = Input.mousePosition });
+        }
+        else
+        {
+            selectedBaseItem = default;
+        }
+    }
+
+    private void UpdateBaseItemMove()
+    {
+
     }
 
     void UpdateZoom()
@@ -204,6 +268,14 @@ public class CameraManager : MonoBehaviour
         ClampCameara();
     }
 
+    private T TryGetRaycastHit<T>(Vector2 touch, int layerMask)
+    {
+        if (Physics.Raycast(mainCamera.ScreenPointToRay(touch), out RaycastHit hit, 1000, layerMask))
+        {
+            return hit.collider.gameObject.GetComponent<T>();
+        }
+        return default;
+    }
     private Vector3 TryGetRaycastHitBaseGround(Vector2 touch)
     {
         RaycastHit hit;

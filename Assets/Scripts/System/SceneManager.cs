@@ -17,16 +17,19 @@ namespace Game
 
 		private Dictionary<int, BaseItemScript> _itemInstances;
 
-
 		private void Awake()
 		{
 			instance = this;
 			_itemInstances = new Dictionary<int, BaseItemScript>();
 			GroundManager.instance.UpdateAllNodes();
+            CameraManager.instance.TapItemAction += OnTapItem;
+        }
+        private void OnDestroy()
+        {
+            CameraManager.instance.TapItemAction -= OnTapItem;
+        }
 
-		}
-
-		private int _GetUnusedInstanceId()
+        private int _GetUnusedInstanceId()
 		{
 			int instanceId = Random.Range(10000, 99999);
 			if (this._itemInstances.ContainsKey(instanceId))
@@ -80,6 +83,11 @@ namespace Game
 			//instance.ownedItem = ownedItem;
 			return instance;
 		}
+
+        private void OnTapItem(CameraManager.CameraEvent evt)
+        {
+            MPopupManager.Inst.ShowItemOptionUI();
+        }
 	}
 
 }

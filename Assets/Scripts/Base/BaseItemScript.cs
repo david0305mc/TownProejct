@@ -11,6 +11,11 @@ public class BaseItemScript : MonoBehaviour
 
 	public ItemsCollection.ItemData itemData;
 
+    public void OnItemDrag(Vector3 pos)
+    {
+        transform.localPosition = new Vector3(Mathf.Floor(pos.x), 0, Mathf.Floor(pos.z));
+    }
+
 	public void SetItemData(int itemId, int posX, int posZ)
 	{
 		this.itemData = Items.GetItem(itemId);
@@ -24,7 +29,7 @@ public class BaseItemScript : MonoBehaviour
 		this.transform.localScale = size;
 	}
 
-	public void SetPosition(Vector3 position)
+	private void SetPosition(Vector3 position)
 	{
 		this.transform.localPosition = position;
 	}

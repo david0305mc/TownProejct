@@ -19,6 +19,7 @@ public class CameraManager : MonoBehaviour
     private int layerMaskBaseItem;
     private bool isPanningStarted;
     private BaseItemScript selectedBaseItem;
+    private BaseItemScript dragStartBaseItem;
 
     private static Vector3 PositiveInfinityVector = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
     private int previousTouchCount;
@@ -54,9 +55,15 @@ public class CameraManager : MonoBehaviour
         {
             return;
         }
-        UpdatePan();
-        UpdateZoom();
-        UpdateBaseItemTap();
+
+        if (dragStartBaseItem == default)
+        {
+            UpdateBaseItemTap();
+            UpdatePan();
+            UpdateZoom();
+        }
+        
+        UpdateBaseItemMove();
     }
 
     public bool IsUsingUI()
@@ -72,6 +79,29 @@ public class CameraManager : MonoBehaviour
         }
 
         return EventSystem.IsPointerOverGameObject() || EventSystem.IsPointerOverGameObject(0);
+    }
+
+    private void UpdateBaseItemMove()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            dragStartBaseItem = TryGetRaycastHit<BaseItemScript>(Input.mousePosition, layerMaskBaseItem);
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            var obj = TryGetRaycastHit<BaseItemScript>(Input.mousePosition, layerMaskBaseItem);
+            if (dragStartBaseItem != null)
+            {
+                dragStartBaseItem.OnItemDrag(TryGetRaycastHitBaseGround(Input.mousePosition));
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            dragStartBaseItem = default;
+        }
+        
     }
 
     private void UpdateBaseItemTap()
@@ -96,11 +126,6 @@ public class CameraManager : MonoBehaviour
         {
             selectedBaseItem = default;
         }
-    }
-
-    private void UpdateBaseItemMove()
-    {
-
     }
 
     void UpdateZoom()

@@ -12,18 +12,24 @@ public class BaseItemScript : MonoBehaviour
 	public ItemsCollection.ItemData itemData;
 
     private Vector3 deltaDistance;
+    private bool isStart = false;
 
     public void OnItemDragStart(Vector3 pos)
     {
         deltaDistance = transform.localPosition - pos;
         transform.localPosition = new Vector3(Mathf.Floor(pos.x), 0, Mathf.Floor(pos.z));
+        isStart = true;
     }
 
     public void OnItemDrag(Vector3 pos)
     {
-        //var point = deltaDistance + pos;
-        var point = pos;
-        transform.localPosition = new Vector3(Mathf.Floor(point.x), 0, Mathf.Floor(point.z));
+        if (!isStart)
+            return;
+
+        var point = deltaDistance + pos;
+        //var point = pos;
+        Renderer.transform.localPosition = new Vector3(Mathf.Floor(point.x), 0, Mathf.Floor(point.z));
+        Debug.Log($"transform.localPosition {transform.localPosition}");
     }
 
 	public void SetItemData(int itemId, int posX, int posZ)

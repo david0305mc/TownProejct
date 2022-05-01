@@ -83,17 +83,23 @@ public class CameraManager : MonoBehaviour
 
     private void UpdateBaseItemMove()
     {
+        var targetBaseGroundPos = TryGetRaycastHitBaseGround(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
         {
             dragStartBaseItem = TryGetRaycastHit<BaseItemScript>(Input.mousePosition, layerMaskBaseItem);
+            if (dragStartBaseItem != null)
+            {
+                dragStartBaseItem.OnItemDragStart(targetBaseGroundPos);
+            }
         }
 
         if (Input.GetMouseButton(0))
         {
-            var obj = TryGetRaycastHit<BaseItemScript>(Input.mousePosition, layerMaskBaseItem);
             if (dragStartBaseItem != null)
             {
-                dragStartBaseItem.OnItemDrag(TryGetRaycastHitBaseGround(Input.mousePosition));
+                dragStartBaseItem.OnItemDrag(targetBaseGroundPos);
+                Debug.DrawLine(mainCamera.transform.position, targetBaseGroundPos);
+
             }
         }
 

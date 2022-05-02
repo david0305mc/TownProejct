@@ -8,7 +8,11 @@ using UnityEngine.Networking;
 public class WebManager : Singleton<WebManager>
 {
     public static string ClientPath { get; set; }
-    
+
+    private readonly int maxRetryCnt = 3;
+    private int retryCnt;
+
+    private Coroutine coroutine;
     protected override void OnSingletonAwake()
     {
         ClientPath = Path.Combine(Application.persistentDataPath, "Client");
@@ -16,7 +20,16 @@ public class WebManager : Singleton<WebManager>
 
     public void WebRequestGet(string url, System.Action<UnityWebRequest> resultAction)
     {
-        StartCoroutine(Get(url, resultAction));
+        retryCnt = 0;
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+        coroutine = StartCoroutine(Get(url, resultAction));
+    }
+    public void RetryGet(string url, System.Action<UnityWebRequest> resultAction)
+    {
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+        coroutine = StartCoroutine(Get(url, resultAction));
     }
 
     public IEnumerator Get(string url, System.Action<UnityWebRequest> resultAction)
@@ -34,22 +47,42 @@ public class WebManager : Singleton<WebManager>
             var responseCode = (int)request.responseCode;
             var responseHeaders = request.GetResponseHeaders();
 
-            if (request.result == UnityWebRequest.Result.Success)
+            try
             {
-                Debug.Log("request Success");
+                if (retryCnt <= maxRetryCnt)
+                {
+                    throw new System.Exception("test");
+                }
+                
+                if (request.result == UnityWebRequest.Result.Success)
+                {
+                    Debug.Log("request Success");
 
-                FileUtil.CreateDirectory(ClientPath);
-                File.WriteAllBytes(ClientPath, request.downloadHandler.data);
-            }
-            else
-            {
-                Debug.Log($"request.error {request.error}");
-                if (request.error == "Request timeout")
-                {   //е╦юс ╬ф©Т
-                    //fNetTimeout(fRetryRequest, _sendMessage);
+                    FileUtil.CreateDirectory(ClientPath);
+                    File.WriteAllBytes(ClientPath, request.downloadHandler.data);
+                    resultAction?.Invoke(request);
+                }
+                else
+                {
+                    Debug.Log($"request.error {request.error}");
+                    if (request.error == "Request timeout")
+                    {   //е╦юс ╬ф©Т
+                        //fNetTimeout(fRetryRequest, _sendMessage);
+                        retryCnt++;
+                        RetryGet(url, resultAction);
+                    }
+                    else
+                    {
+                        resultAction?.Invoke(request);
+                    }
                 }
             }
-            resultAction?.Invoke(request);
+            catch
+            {
+                retryCnt++;
+                Debug.LogError($"request.error {request.error}");
+                RetryGet(url, resultAction);
+            }      
         }
     }
 }

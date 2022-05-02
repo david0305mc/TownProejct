@@ -8,7 +8,8 @@ using UnityEngine.Networking;
 public struct WEB_MSG
 {
     public string Url;
-    public System.Action<UnityWebRequest> Action;
+    public System.Action<UnityWebRequest> SuccessAction;
+    public System.Action<UnityWebRequest> FailAction;
 }
 
 public class WebManager : Singleton<WebManager>
@@ -25,10 +26,10 @@ public class WebManager : Singleton<WebManager>
         ClientPath = Path.Combine(Application.persistentDataPath, "Client");
     }
 
-    public void WebRequestGet(string url, System.Action<UnityWebRequest> resultAction)
+    public void WebRequestGet(string url, System.Action<UnityWebRequest> resultAction, System.Action<UnityWebRequest> failAction = null)
     {
         Debug.Log($"requestList.Count  {requestList.Count }");
-        var msg = new WEB_MSG() { Url = url, Action = resultAction };
+        var msg = new WEB_MSG() { Url = url, SuccessAction = resultAction, FailAction = failAction };
         requestList.Add(msg);
         if (requestList.Count == 1)
         {
@@ -40,14 +41,14 @@ public class WebManager : Singleton<WebManager>
         retryCnt = 0;
         if (coroutine != null)
             StopCoroutine(coroutine);
-        coroutine = StartCoroutine(Get(msg.Url, msg.Action));
+        coroutine = StartCoroutine(Get(msg));
     }
 
-    private void RetryGet(string url, System.Action<UnityWebRequest> resultAction)
+    private void RetryGet(WEB_MSG msg)
     {
         if (coroutine != null)
             StopCoroutine(coroutine);
-        coroutine = StartCoroutine(Get(url, resultAction));
+        coroutine = StartCoroutine(Get(msg));
     }
 
     private void CompleteRequest()
@@ -58,9 +59,9 @@ public class WebManager : Singleton<WebManager>
             WebRequestGet(requestList[0]);
         }
     }
-    private IEnumerator Get(string url, System.Action<UnityWebRequest> resultAction)
+    private IEnumerator Get(WEB_MSG msg)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(url))
+        using (UnityWebRequest request = UnityWebRequest.Get(msg.Url))
         {
             request.timeout = 6;
             var p = request.SendWebRequest();
@@ -79,7 +80,7 @@ public class WebManager : Singleton<WebManager>
 
                 FileUtil.CreateDirectory(ClientPath);
                 File.WriteAllBytes(ClientPath, request.downloadHandler.data);
-                resultAction?.Invoke(request);
+                msg.SuccessAction?.Invoke(request);
                 CompleteRequest();
             }
             else
@@ -89,18 +90,18 @@ public class WebManager : Singleton<WebManager>
                 {
                     if (retryCnt >= maxRetryCnt)
                     {
-                        resultAction?.Invoke(request);
+                        msg.FailAction?.Invoke(request);
                         CompleteRequest();
                     }
                     else
                     {
                         retryCnt++;
-                        RetryGet(url, resultAction);
+                        RetryGet(msg);
                     }
                 }
                 else
                 {
-                    resultAction?.Invoke(request);
+                    msg.FailAction?.Invoke(request);
                     CompleteRequest();
                 }
             }

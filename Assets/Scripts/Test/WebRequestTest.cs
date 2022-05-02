@@ -8,7 +8,7 @@ public class WebRequestTest : MonoBehaviour
     public void OnClickBtnDownloadTest()
     {
         WebManager.Instance.WebRequestGet(@"https://forest-cdn.flerogamessvc.com/beta/datapatch/DataPatch.zip", (request) => {
-
+            Debug.Log("Complete");
         });
     }
 

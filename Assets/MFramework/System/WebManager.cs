@@ -5,12 +5,19 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
+public struct WEB_MSG
+{
+    public string Url;
+    public System.Action<UnityWebRequest> Action;
+}
+
 public class WebManager : Singleton<WebManager>
 {
     public static string ClientPath { get; set; }
 
-    private readonly int maxRetryCnt = 3;
+    private readonly int maxRetryCnt = 5;
     private int retryCnt;
+    private List<WEB_MSG> requestList = new List<WEB_MSG>();
 
     private Coroutine coroutine;
     protected override void OnSingletonAwake()
@@ -20,19 +27,38 @@ public class WebManager : Singleton<WebManager>
 
     public void WebRequestGet(string url, System.Action<UnityWebRequest> resultAction)
     {
+        Debug.Log($"requestList.Count  {requestList.Count }");
+        var msg = new WEB_MSG() { Url = url, Action = resultAction };
+        requestList.Add(msg);
+        if (requestList.Count == 1)
+        {
+            WebRequestGet(msg);
+        }
+    }
+    private void WebRequestGet(WEB_MSG msg)
+    {
         retryCnt = 0;
         if (coroutine != null)
             StopCoroutine(coroutine);
-        coroutine = StartCoroutine(Get(url, resultAction));
+        coroutine = StartCoroutine(Get(msg.Url, msg.Action));
     }
-    public void RetryGet(string url, System.Action<UnityWebRequest> resultAction)
+
+    private void RetryGet(string url, System.Action<UnityWebRequest> resultAction)
     {
         if (coroutine != null)
             StopCoroutine(coroutine);
         coroutine = StartCoroutine(Get(url, resultAction));
     }
 
-    public IEnumerator Get(string url, System.Action<UnityWebRequest> resultAction)
+    private void CompleteRequest()
+    {
+        requestList.RemoveAt(0);
+        if (requestList.Count > 0)
+        {
+            WebRequestGet(requestList[0]);
+        }
+    }
+    private IEnumerator Get(string url, System.Action<UnityWebRequest> resultAction)
     {
         using (UnityWebRequest request = UnityWebRequest.Get(url))
         {
@@ -47,42 +73,37 @@ public class WebManager : Singleton<WebManager>
             var responseCode = (int)request.responseCode;
             var responseHeaders = request.GetResponseHeaders();
 
-            try
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                if (retryCnt <= maxRetryCnt)
-                {
-                    throw new System.Exception("test");
-                }
-                
-                if (request.result == UnityWebRequest.Result.Success)
-                {
-                    Debug.Log("request Success");
+                Debug.Log("request Success");
 
-                    FileUtil.CreateDirectory(ClientPath);
-                    File.WriteAllBytes(ClientPath, request.downloadHandler.data);
-                    resultAction?.Invoke(request);
-                }
-                else
+                FileUtil.CreateDirectory(ClientPath);
+                File.WriteAllBytes(ClientPath, request.downloadHandler.data);
+                resultAction?.Invoke(request);
+                CompleteRequest();
+            }
+            else
+            {
+                Debug.Log($"request.error {request.error}");
+                if (request.error == "Request timeout")
                 {
-                    Debug.Log($"request.error {request.error}");
-                    if (request.error == "Request timeout")
-                    {   //е╦юс ╬ф©Т
-                        //fNetTimeout(fRetryRequest, _sendMessage);
-                        retryCnt++;
-                        RetryGet(url, resultAction);
+                    if (retryCnt >= maxRetryCnt)
+                    {
+                        resultAction?.Invoke(request);
+                        CompleteRequest();
                     }
                     else
                     {
-                        resultAction?.Invoke(request);
+                        retryCnt++;
+                        RetryGet(url, resultAction);
                     }
                 }
+                else
+                {
+                    resultAction?.Invoke(request);
+                    CompleteRequest();
+                }
             }
-            catch
-            {
-                retryCnt++;
-                Debug.LogError($"request.error {request.error}");
-                RetryGet(url, resultAction);
-            }      
         }
     }
 }

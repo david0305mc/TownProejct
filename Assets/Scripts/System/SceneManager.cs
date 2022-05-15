@@ -29,6 +29,22 @@ namespace Game
             CameraManager.instance.TapItemAction -= OnTapItem;
         }
 
+        private void Start()
+        {
+            Init();    
+        }
+
+        private void Init()
+        {
+            LoadUserScene();   
+        }
+
+        private void LoadUserScene()
+        {
+            AddItem(1720, true, false);
+        }
+
+
         private int _GetUnusedInstanceId()
 		{
 			int instanceId = Random.Range(10000, 99999);

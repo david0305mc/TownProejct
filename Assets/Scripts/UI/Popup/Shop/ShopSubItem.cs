@@ -167,7 +167,9 @@ public class ShopSubItem : MonoBehaviour
                 itemId = 2496;
                 break;
             case GameData.ShopSubCategory.TREE1:
-                itemId = 2949;
+                //itemId = 2949;
+                itemId = 8582;
+                
                 break;
             case GameData.ShopSubCategory.TREE2:
                 itemId = 1251;

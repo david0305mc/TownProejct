@@ -16,7 +16,7 @@ MonoBehaviour:
   - id: 8833
     name: Barrack
     thumb: {fileID: 0}
-    gridSize: 4
+    gridSize: 3
     configuration:
       buildTime: 0
       isCharacter: 0
@@ -28,6 +28,42 @@ MonoBehaviour:
       productionRate: 0
       product: 
     idleSprites: a2030000
+    walkSprites: 
+    attackSprites: 
+    destroyedSprites: 
+  - id: 8420
+    name: Builder
+    thumb: {fileID: 0}
+    gridSize: 1
+    configuration:
+      buildTime: 0
+      isCharacter: 0
+      speed: 0
+      attackRange: 0
+      defenceRange: 0
+      healthPoints: 0
+      hitPoints: 0
+      productionRate: 0
+      product: 
+    idleSprites: e2010000
+    walkSprites: 
+    attackSprites: 
+    destroyedSprites: 
+  - id: 1720
+    name: BuilderHut
+    thumb: {fileID: 0}
+    gridSize: 3
+    configuration:
+      buildTime: 0
+      isCharacter: 0
+      speed: 0
+      attackRange: 0
+      defenceRange: 0
+      healthPoints: 0
+      hitPoints: 0
+      productionRate: 0
+      product: 
+    idleSprites: 75030000
     walkSprites: 
     attackSprites: 
     destroyedSprites: 

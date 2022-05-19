@@ -14,20 +14,30 @@ namespace Game
 
 		// object ref
 		public GameObject ItemsContainer;
+	
 
 		private Dictionary<int, BaseItemScript> _itemInstances;
+		private BaseItemScript selectedItem;
+
+		public Dictionary<int, BaseItemScript> GetItemInstances()
+		{
+			return _itemInstances;
+		}
 
 		private void Awake()
 		{
 			instance = this;
 			_itemInstances = new Dictionary<int, BaseItemScript>();
 			GroundManager.instance.UpdateAllNodes();
-            CameraManager.instance.TapItemAction += OnTapItem;
+            CameraManager.instance.OnTapItemAction += OnTapItem;
+			CameraManager.instance.OnTapGroundAction += OnTapGround;
+
         }
         private void OnDestroy()
         {
-            CameraManager.instance.TapItemAction -= OnTapItem;
-        }
+            CameraManager.instance.OnTapItemAction -= OnTapItem;
+			CameraManager.instance.OnTapGroundAction -= OnTapGround;
+		}
 
         private void Start()
         {
@@ -102,8 +112,24 @@ namespace Game
 
         private void OnTapItem(CameraManager.CameraEvent evt)
         {
-            MPopupManager.Inst.ShowItemOptionUI();
+			if (selectedItem != null)
+			{
+				selectedItem.SetSelected(false);
+			}
+			selectedItem = evt.baseItem;
+			selectedItem.SetSelected(true);
+
+			MPopupManager.Inst.ShowItemOptionUI();
         }
+
+		private void OnTapGround(CameraManager.CameraEvent evt)
+		{
+			if (selectedItem != null)
+			{
+				selectedItem.SetSelected(false);
+				selectedItem = null;
+			}
+		}
 	}
 
 }

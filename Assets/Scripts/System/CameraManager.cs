@@ -15,6 +15,7 @@ public class CameraManager : MonoBehaviour
 
     public EventSystem EventSystem;
     [SerializeField] private Camera mainCamera;
+    public Camera MainCamera { get { return mainCamera; } }
     private int layerMaskGround;
     private int layerMaskBaseItem;
     private bool isPanningStarted;
@@ -37,7 +38,8 @@ public class CameraManager : MonoBehaviour
     private readonly float minZoomFactor = 3;
     private readonly float clampZoomOffset = 2.0f;
 
-    public UnityEngine.Events.UnityAction<CameraEvent> TapItemAction { get; set; }
+    public UnityEngine.Events.UnityAction<CameraEvent> OnTapItemAction { get; set; }
+    public UnityEngine.Events.UnityAction<CameraEvent> OnTapGroundAction { get; set; }
 
     private void Awake()
     {
@@ -56,14 +58,38 @@ public class CameraManager : MonoBehaviour
             return;
         }
 
+        UpdateBaseItemTap();
         if (dragStartBaseItem == default)
         {
-            UpdateBaseItemTap();
             UpdatePan();
             UpdateZoom();
         }
-        
+        UpdateGroundTap();
         UpdateBaseItemMove();
+    }
+
+    private void UpdateGroundTap()
+    {
+        if (isPanningStarted)
+        {
+            return;
+        }
+
+        if (!Input.GetMouseButtonUp(0))
+        {
+            return;
+        }
+
+
+        Vector3 tapPosition = TryGetRaycastHitBaseGround(Input.mousePosition);
+        if (tapPosition != PositiveInfinityVector)
+        {
+            CameraEvent evt = new CameraEvent()
+            {
+                point = tapPosition
+            };
+            OnTapGroundAction(evt);
+        }
     }
 
     public bool IsUsingUI()
@@ -126,7 +152,7 @@ public class CameraManager : MonoBehaviour
         if (obj != default)
         {
             selectedBaseItem = obj;            
-            TapItemAction?.Invoke( new CameraEvent() { baseItem = obj, point = Input.mousePosition });
+            OnTapItemAction?.Invoke( new CameraEvent() { baseItem = obj, point = Input.mousePosition });
         }
         else
         {

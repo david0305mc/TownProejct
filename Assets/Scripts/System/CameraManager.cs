@@ -66,13 +66,18 @@ public class CameraManager : MonoBehaviour
             UpdatePan();
             UpdateZoom();
             UpdateBaseItemTap();
+            UpdateGroundTap();
         }
-        UpdateGroundTap();
         UpdateBaseItemMove();
     }
 
     private void UpdateGroundTap()
     {
+        if (selectedBaseItem != null)
+        {
+            return;
+        }    
+
         if (isPanningStarted)
         {
             return;
@@ -134,14 +139,6 @@ public class CameraManager : MonoBehaviour
                     }
                     dragStartBaseItem.OnItemDrag(currHitPos);
                 }
-                else
-                {
-                    Debug.LogError("Error 02");
-                }
-            }
-            else
-            {
-                Debug.LogError("Error 01");
             }
         }
 
@@ -149,7 +146,6 @@ public class CameraManager : MonoBehaviour
         {
             dragStartBaseItem = default;
             isItemDraging = false;
-            Debug.LogError("Error 03");
         }
         
     }

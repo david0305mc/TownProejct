@@ -119,7 +119,6 @@ namespace Game
 			selectedItem = evt.baseItem;
 			selectedItem.SetSelected(true);
 
-			MPopupManager.Inst.ShowItemOptionUI();
         }
 
 		private void OnTapGround(CameraManager.CameraEvent evt)

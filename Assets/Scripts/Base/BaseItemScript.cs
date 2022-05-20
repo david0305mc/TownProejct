@@ -67,11 +67,11 @@ public class BaseItemScript : MonoBehaviour
         UpdateConnectedItems();
         if (value)
         {
-
+            MPopupManager.Inst.ShowItemOptionUI();
         }
         else
         {
-            
+            MPopupManager.Inst.CloseAllWindow();
         }
     }
 

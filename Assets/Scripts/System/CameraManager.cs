@@ -21,6 +21,7 @@ public class CameraManager : MonoBehaviour
     private bool isPanningStarted;
     private BaseItemScript selectedBaseItem;
     private BaseItemScript dragStartBaseItem;
+    private bool isItemDraging;
 
     private static Vector3 PositiveInfinityVector = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
     private int previousTouchCount;
@@ -33,7 +34,9 @@ public class CameraManager : MonoBehaviour
     private Vector3 touchPoint0;
     private Vector3 touchPoint1;
     private Vector3 tapGroundStartPosition;
+    private Vector3 tapItemStartPos;
 
+    private readonly float minDragMoveDistance = 0.2f;
     private readonly float maxZoomFactor = 50;
     private readonly float minZoomFactor = 3;
     private readonly float clampZoomOffset = 2.0f;
@@ -58,11 +61,11 @@ public class CameraManager : MonoBehaviour
             return;
         }
 
-        UpdateBaseItemTap();
-        if (dragStartBaseItem == default)
+        if (!isItemDraging)
         {
             UpdatePan();
             UpdateZoom();
+            UpdateBaseItemTap();
         }
         UpdateGroundTap();
         UpdateBaseItemMove();
@@ -94,10 +97,10 @@ public class CameraManager : MonoBehaviour
 
     public bool IsUsingUI()
     {
-        //if (this._isDraggingBaseItem)
-        //{
-        //    return false;
-        //}
+        if (isItemDraging)
+        {
+            return false;
+        }
 
         if (isPanningStarted)
         {
@@ -109,29 +112,44 @@ public class CameraManager : MonoBehaviour
 
     private void UpdateBaseItemMove()
     {
-        var targetBaseGroundPos = TryGetRaycastHitBaseGround(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
         {
             dragStartBaseItem = TryGetRaycastHit<BaseItemScript>(Input.mousePosition, layerMaskBaseItem);
-            if (dragStartBaseItem != null)
-            {
-                dragStartBaseItem.OnItemDragStart(targetBaseGroundPos);
-            }
+            isItemDraging = false;
+            tapItemStartPos = TryGetRaycastHitBaseGround(Input.mousePosition);
         }
 
         if (Input.GetMouseButton(0))
         {
-            if (dragStartBaseItem != null)
+            if (selectedBaseItem != null && selectedBaseItem == dragStartBaseItem)
             {
-                dragStartBaseItem.OnItemDrag(targetBaseGroundPos);
-                Debug.DrawLine(mainCamera.transform.position, targetBaseGroundPos);
-
+                var currHitPos = TryGetRaycastHitBaseGround(Input.mousePosition);
+                Debug.DrawLine(mainCamera.transform.position, currHitPos);
+                if (Vector3.Distance(tapItemStartPos, currHitPos) >= minDragMoveDistance)
+                {
+                    if (!isItemDraging)
+                    {
+                        dragStartBaseItem.OnItemDragStart(currHitPos);
+                        isItemDraging = true;
+                    }
+                    dragStartBaseItem.OnItemDrag(currHitPos);
+                }
+                else
+                {
+                    Debug.LogError("Error 02");
+                }
+            }
+            else
+            {
+                Debug.LogError("Error 01");
             }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             dragStartBaseItem = default;
+            isItemDraging = false;
+            Debug.LogError("Error 03");
         }
         
     }
@@ -148,15 +166,10 @@ public class CameraManager : MonoBehaviour
             return;
         }
 
-        BaseItemScript obj = TryGetRaycastHit<BaseItemScript>(Input.mousePosition, layerMaskBaseItem);
-        if (obj != default)
+        selectedBaseItem = TryGetRaycastHit<BaseItemScript>(Input.mousePosition, layerMaskBaseItem);
+        if (selectedBaseItem != default)
         {
-            selectedBaseItem = obj;            
-            OnTapItemAction?.Invoke( new CameraEvent() { baseItem = obj, point = Input.mousePosition });
-        }
-        else
-        {
-            selectedBaseItem = default;
+            OnTapItemAction?.Invoke( new CameraEvent() { baseItem = selectedBaseItem, point = Input.mousePosition });
         }
     }
 

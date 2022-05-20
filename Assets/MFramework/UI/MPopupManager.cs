@@ -36,9 +36,9 @@ public class MPopupManager : MonoBehaviour
 
     public void CloseAllWindow()
     {
-        foreach (MPopupBase popup in popupList)
+        for (int i = popupList.Count - 1; i > 0; i--)
         {
-            popup.Close();
+            popupList[i].Close();
         }
         popupList = new List<MPopupBase>();
     }
@@ -46,6 +46,10 @@ public class MPopupManager : MonoBehaviour
     private MPopupBase ShowPopup(GameObject prefab)
     {
         MPopupBase popupBase = MUtilities.CreatePopup<MPopupBase>(prefab, popupRoot, true).GetComponent<MPopupBase>();
+        popupBase.SetOnHide((popup) => {
+            popupList.Remove(popup);
+            Destroy(popup.gameObject);
+        });
         popupList.Add(popupBase);
         return popupBase;
     }

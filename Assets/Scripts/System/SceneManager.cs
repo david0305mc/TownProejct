@@ -51,7 +51,11 @@ namespace Game
 
         private void LoadUserScene()
         {
-            AddItem(1720, true, false);
+			var sceneData =	DatabaseManager.Instance.GetScene();
+			foreach (var item in sceneData.items)
+			{
+				AddItem(item.itemId, item.instanceId, item.posX, item.posZ, true, true);
+			}
         }
 
 
@@ -65,7 +69,7 @@ namespace Game
 			return instanceId;
 		}
 
-		public BaseItemScript AddItem(int itemId, bool immediate, bool ownedItem)
+		public BaseItemScript AddItem(int itemId, int instanceID, bool immediate, bool ownedItem)
 		{
 			int posX = 0;
 			int posZ = 0;
@@ -76,7 +80,7 @@ namespace Game
 				posX = (int)freePosition.x;
 				posZ = (int)freePosition.z;
 			}
-			return this.AddItem(itemId, -1, posX, posZ, immediate, ownedItem);
+			return this.AddItem(itemId, instanceID, posX, posZ, immediate, ownedItem);
 		}
 		/// <summary>
 		/// Adds the item with itemId. where itemId is the id which we registered with item prefab as unique.

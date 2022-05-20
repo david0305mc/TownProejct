@@ -8,6 +8,7 @@ public class MPopupBase : MonoBehaviour
 {
     [SerializeField] private Button closeBtn = default;
 
+    private System.Action<MPopupBase> hideAction;
     private void Awake()
     {
         closeBtn?.onClick.AsObservable().Subscribe(_ => {
@@ -15,11 +16,13 @@ public class MPopupBase : MonoBehaviour
         });
     }
 
+    public void SetOnHide(System.Action<MPopupBase> hide)
+    {
+        hideAction = hide;
+    }
+
     public virtual void Close()
     {
-        if (gameObject != null)
-        {
-            Destroy(gameObject);
-        }
+        hideAction?.Invoke(this);
     }
 }

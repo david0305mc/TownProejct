@@ -144,6 +144,11 @@ public class CameraManager : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
+            if (dragStartBaseItem != null)
+            {
+                dragStartBaseItem.OnItemDragStop();
+            }
+            
             dragStartBaseItem = default;
             isItemDraging = false;
         }

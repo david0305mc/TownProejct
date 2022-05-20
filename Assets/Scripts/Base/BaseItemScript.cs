@@ -39,6 +39,11 @@ public class BaseItemScript : MonoBehaviour
         isStart = true;
     }
 
+    public void OnItemDragStop()
+    {
+        DatabaseManager.Instance.UpdateItemData(this);
+    }
+
     public void OnItemDrag(Vector3 pos)
     {
         if (!isStart)
@@ -95,7 +100,7 @@ public class BaseItemScript : MonoBehaviour
 
             if (builder == null)
             {
-                builder = Game.SceneManager.instance.AddItem(8420, true, false);
+                builder = Game.SceneManager.instance.AddItem(8420, -1, true, false);
 
                 builder.SetPosition(transform.localPosition = new Vector3(0, 0, 0));
                 //builder.SetPosition(this.GetRandomFrontCellPosition());

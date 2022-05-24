@@ -121,7 +121,7 @@ public class BaseItemScript : MonoBehaviour
 		this.transform.localScale = size;
 	}
 
-	private void SetPosition(Vector3 position)
+	public void SetPosition(Vector3 position)
 	{
 		this.transform.localPosition = position;
 	}
@@ -145,6 +145,29 @@ public class BaseItemScript : MonoBehaviour
     {
         return new Vector3(this.transform.localScale.x, 0, this.transform.localScale.z);
     }
+
+    public Vector3[] getOutCells()
+    {
+        int sizeX = (int)GetSize().x;
+        List<Vector3> cells = new List<Vector3>();
+
+        for (int i = 0; i <= sizeX; i++)
+        {
+            for (int j = 0; i <= sizeX; j++)
+            {
+                if (i == 0 || j == 0 || i == sizeX || j == sizeX) 
+                {
+                    Vector3 pos = GetPosition() + new Vector3(i, 0, j);
+                    if (!cells.Contains(pos))
+                    {
+                        cells.Add(pos);
+                    }
+                }
+            }
+        }
+        return cells.ToArray();
+    }
+
     public Vector3[] GetFrontCells()
     {
         int sizeX = (int)this.GetSize().x;

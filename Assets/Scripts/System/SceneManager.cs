@@ -6,6 +6,9 @@ namespace Game
 {
 	public class SceneManager : MonoBehaviour
 	{
+		private int _swordMan_ID = 3068;
+		//private int _archer_ID = 5492;
+
 		public static SceneManager instance;
 		// prefab
 		public GameObject BaseItem;
@@ -132,6 +135,13 @@ namespace Game
 				selectedItem.SetSelected(false);
 				selectedItem = null;
 			}
+
+			evt.point.x = Mathf.Clamp(evt.point.x, 0, GroundManager.nodeWidth - 1);
+			evt.point.z  = Mathf.Clamp(evt.point.z, 0, GroundManager.nodeHeight - 1);
+			var unit = AddItem(_swordMan_ID, -1, true, true);
+			unit.SetPosition(evt.point);
+
+
 		}
 	}
 

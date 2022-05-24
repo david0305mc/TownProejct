@@ -85,3 +85,21 @@ MonoBehaviour:
     walkSprites: 
     attackSprites: 
     destroyedSprites: 
+  - id: 3068
+    name: SwordMan
+    thumb: {fileID: 0}
+    gridSize: 4
+    configuration:
+      buildTime: 0
+      isCharacter: 0
+      speed: 0
+      attackRange: 0
+      defenceRange: 0
+      healthPoints: 0
+      hitPoints: 0
+      productionRate: 0
+      product: 
+    idleSprites: e5000000
+    walkSprites: 38030000
+    attackSprites: 
+    destroyedSprites: 

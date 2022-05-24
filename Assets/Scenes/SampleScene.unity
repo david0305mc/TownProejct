@@ -275,6 +275,7 @@ GameObject:
   - component: {fileID: 263722903}
   - component: {fileID: 263722904}
   - component: {fileID: 263722905}
+  - component: {fileID: 263722906}
   m_Layer: 0
   m_Name: Field
   m_TagString: Untagged
@@ -328,6 +329,19 @@ MonoBehaviour:
   RenderQuadMaterial: {fileID: 2100000, guid: 717d7b3c973ba0a4b85771c1e1fc774d, type: 2}
   RenderQuad: {fileID: 1019834545185383691, guid: 025ea123ac546c443bd3226f9d19a973, type: 3}
   ItemsContainer: {fileID: 529244218}
+--- !u!114 &263722906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263722902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e2c532d42c5863438050f5873f5f0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DontDestroyOnLoad: 1
 --- !u!1 &384641953
 GameObject:
   m_ObjectHideFlags: 0

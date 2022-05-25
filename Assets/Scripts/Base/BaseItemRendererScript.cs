@@ -10,10 +10,21 @@ public class BaseItemRendererScript : MonoBehaviour
 
     private List<RenderQuadScript> _renderQuads;
     private RenderQuadScript _groundPatch;
+    public GameData.State oldState;
     public void Init()
     {
         this.Clear();
         this.UpdateRenderQuads();
+    }
+
+    public void Refresh()
+    {
+        if (BaseItem.state != oldState)
+        {
+            Clear();
+            UpdateRenderQuads();
+            oldState = BaseItem.state;
+        }
     }
 
     public void Clear()
@@ -75,18 +86,30 @@ public class BaseItemRendererScript : MonoBehaviour
             }
         }
 
-        ////flip renderer for topleft, bottomleft, left
-        //if (BaseItem.itemData.configuration.isCharacter)
-        //{
-        //    if (BaseItem.direction == Common.Direction.BOTTOM_LEFT || BaseItem.direction == Common.Direction.LEFT || BaseItem.direction == Common.Direction.TOP_LEFT)
-        //    {
-        //        this._FlipRenderers(true);
-        //    }
-        //    else
-        //    {
-        //        this._FlipRenderers(false);
-        //    }
-        //}
+        //flip renderer for topleft, bottomleft, leftW
+        if (BaseItem.itemData.configuration.isCharacter)
+        {
+            if (BaseItem.direction == GameData.Direction.BOTTOM_LEFT || BaseItem.direction == GameData.Direction.LEFT || BaseItem.direction == GameData.Direction.TOP_LEFT)
+            {
+                this.FlipRenderers(true);
+            }
+            else
+            {
+                this.FlipRenderers(false);
+            }
+        }
+    }
+
+    private void FlipRenderers(bool value)
+    {
+        if (value)
+        {
+            RenderQuadsContainer.transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            RenderQuadsContainer.transform.localScale = new Vector3(1, 1, 1);
+        }
     }
     private SpriteCollection.TextureData[] _GetCurrentImageLayers()
     {

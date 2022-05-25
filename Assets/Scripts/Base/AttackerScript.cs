@@ -26,6 +26,11 @@ public class AttackerScript : MonoBehaviour
         }
     }
 
+    private void CheckTargetBeyondRange()
+    { 
+    
+    }
+
     private void Attack(BaseItemScript target)
     {
         var outCells = target.getOutCells();
@@ -51,12 +56,6 @@ public class AttackerScript : MonoBehaviour
         }
         
     }
-
-    private void CheckTargetBeyondRange()
-    { 
-    
-    }
-    
 
     private BaseItemScript GetNearestTargetItem()
     {

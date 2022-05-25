@@ -82,6 +82,11 @@ public class BaseItemScript : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        Renderer.Refresh();
+    }
+
     private void UpdateConnectedItems()
     {
         //add builder to builder hut
@@ -138,6 +143,11 @@ public class BaseItemScript : MonoBehaviour
 			this.state = state;
 		}
 	}
+
+    public Vector3 GetCenterPosition()
+    {
+        return this.GetPosition() + this.GetSize() / 2.0f;
+    }
 
     public Vector3 GetPosition()
     {
@@ -217,6 +227,11 @@ public class BaseItemScript : MonoBehaviour
     {
         this.SetState(GameData.State.IDLE);
         this.Walker.OnFinishWalk -= OnFinishWalkReturnBuilder;
+    }
+
+    public void LookAt(BaseItemScript item)
+    {
+        LookAt(item.GetCenterPosition());
     }
 
     public void LookAt(Vector3 point)

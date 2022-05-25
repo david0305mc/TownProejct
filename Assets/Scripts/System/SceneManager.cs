@@ -104,7 +104,6 @@ namespace Game
 
 			instance.SetItemData(itemId, posX, posZ);
 			instance.SetState(GameData.State.IDLE);
-			instance.Attacker.AttackNearestTarget();
 
 			//		GroundManager.Cell freeCell = GroundManager.instance.GetRandomFreeCellForItem (instance);
 			//		instance.SetPosition (GroundManager.instance.CellToPosition (freeCell));
@@ -141,7 +140,7 @@ namespace Game
 			evt.point.z  = Mathf.Clamp(evt.point.z, 0, GroundManager.nodeHeight - 1);
 			var unit = AddItem(_swordMan_ID, -1, true, true);
 			unit.SetPosition(evt.point);
-
+			unit.Attacker.AttackNearestTarget();
 
 		}
 	}

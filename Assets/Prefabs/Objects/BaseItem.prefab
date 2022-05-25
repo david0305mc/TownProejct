@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: -6884131518778652605}
   - component: {fileID: 1706137497830456720}
   - component: {fileID: 1475915785041570193}
+  - component: {fileID: 1071251010053551067}
   m_Layer: 7
   m_Name: BaseItem
   m_TagString: Untagged
@@ -112,6 +113,7 @@ MonoBehaviour:
   direction: 0
   Renderer: {fileID: -6884131518778652605}
   Walker: {fileID: 1475915785041570193}
+  Attacker: {fileID: 1071251010053551067}
   itemData:
     id: 0
     name: 
@@ -169,6 +171,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fe97bdcf5c54bf46812c001e2eeec86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1071251010053551067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5781569063630325323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d926c0a99f39a245b7e615286b745d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6804380606291605346

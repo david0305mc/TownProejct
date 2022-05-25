@@ -11,6 +11,7 @@ public class BaseItemScript : MonoBehaviour
 	public BaseItemRendererScript Renderer;
 
     public WalkerScript Walker;
+    public AttackerScript Attacker;
     public ItemsCollection.ItemData itemData;
     public List<BaseItemScript> connectedItems;
 
@@ -61,6 +62,7 @@ public class BaseItemScript : MonoBehaviour
 		this.gameObject.name = itemData.name + " [INSTANCE]";
         this.Renderer.Init();
         this.Walker.SetData(this);
+        this.Attacker.SetData(this);
         connectedItems = new List<BaseItemScript>();
         this.SetSize(Vector3.one * itemData.gridSize);
 		this.SetPosition(new Vector3(posX, 0, posZ));
@@ -153,9 +155,9 @@ public class BaseItemScript : MonoBehaviour
 
         for (int i = 0; i <= sizeX; i++)
         {
-            for (int j = 0; i <= sizeX; j++)
+            for (int j = 0; j <= sizeX; j++)
             {
-                if (i == 0 || j == 0 || i == sizeX || j == sizeX) 
+                if (i == 0 || j == 0 || j == sizeX || j == sizeX) 
                 {
                     Vector3 pos = GetPosition() + new Vector3(i, 0, j);
                     if (!cells.Contains(pos))

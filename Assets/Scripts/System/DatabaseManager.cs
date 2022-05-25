@@ -39,7 +39,7 @@ public class SceneData
 
 public class DatabaseManager : Singleton<DatabaseManager>
 {
-    private string gameDataFilePath = "/db.json";
+    private string gameDataFilename = "db.json";
     private SceneData sceneData;
 
     private string filePath;
@@ -58,8 +58,8 @@ public class DatabaseManager : Singleton<DatabaseManager>
     {
         sceneData = new SceneData();
            
-        Debug.Log(Application.streamingAssetsPath);
-        filePath = Application.streamingAssetsPath + gameDataFilePath;
+        Debug.Log(Application.persistentDataPath);
+        filePath = Path.Combine(Application.persistentDataPath, gameDataFilename);
         //var directoryPath = Directory.GetParent(filePath);
         //Debug.Log(directoryPath.FullName);
 

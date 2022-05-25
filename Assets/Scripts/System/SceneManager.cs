@@ -104,6 +104,7 @@ namespace Game
 
 			instance.SetItemData(itemId, posX, posZ);
 			instance.SetState(GameData.State.IDLE);
+			instance.Attacker.AttackNearestTarget();
 
 			//		GroundManager.Cell freeCell = GroundManager.instance.GetRandomFreeCellForItem (instance);
 			//		instance.SetPosition (GroundManager.instance.CellToPosition (freeCell));

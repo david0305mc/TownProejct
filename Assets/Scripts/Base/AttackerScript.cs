@@ -64,11 +64,11 @@ public class AttackerScript : MonoBehaviour
         float nearestDist = 9999f;
         foreach (var item in Game.SceneManager.instance.GetItemInstances())
         {
-            if (item.Value == this)
+            if (item.Value == this._baseItem)
                 continue;
 
             var d = Vector3.Distance(transform.localPosition, item.Value.transform.localPosition);
-            if (nearestDist < d)
+            if (nearestDist > d)
             {
                 nearestDist = d;
                 nearestTarget = item.Value;

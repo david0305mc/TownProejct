@@ -88,10 +88,10 @@ MonoBehaviour:
   - id: 3068
     name: SwordMan
     thumb: {fileID: 0}
-    gridSize: 4
+    gridSize: 1
     configuration:
       buildTime: 0
-      isCharacter: 0
+      isCharacter: 1
       speed: 0
       attackRange: 0
       defenceRange: 0

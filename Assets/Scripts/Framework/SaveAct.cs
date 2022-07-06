@@ -1,20 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CodeStage.AntiCheat.Storage;
 
-public abstract class SaveAct : MonoBehaviour
+public abstract class SaveAct
 {
+    protected abstract string SaveKey { get; }
     protected abstract string SaveData { get; }
 
-    //protected override void Save()
-    //{
+    protected virtual void Save()
+    {
+        ObscuredPrefs.SetString(SaveKey, SaveData);
+    }
 
-    //}
-
-    //private void OnSave()
-    //{ 
-
-    //obscuredPrefs.SetString
-    //}
-      
+    protected virtual string Load()
+    {
+        return ObscuredPrefs.GetString(SaveKey);
+    }
 }

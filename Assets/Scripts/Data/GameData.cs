@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameData : MonoBehaviour
+public class GameData 
 {
+    public static string tableRootPath = Application.streamingAssetsPath + "/LocalTable/";
+
+
     public enum ShopCategory
     {
         ARMY,

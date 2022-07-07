@@ -8,7 +8,7 @@ public class BasicSystemTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        CsvReader.ParseDataTable();
     }
 
     IEnumerator ProcessLoadTable()

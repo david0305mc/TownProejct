@@ -40,7 +40,7 @@ public class CsvReader
                 Debug.LogError($"load Filed tableName {tableName}");
             }
         }
-        ParseConfigTable();
+        //ParseConfigTable();
         _Datatable.Instance.MakeClientDT();
     }
 

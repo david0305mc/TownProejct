@@ -11,7 +11,7 @@ public class EditorMenu
         if (EditorApplication.isPlaying) return;
         CodeGenerator.GenDatatable();
         Debug.Log("GenerateTableCode");
-        //CodeGenerator.GenConfigTable();
+        CodeGenerator.GenConfigTable();
         //Debug.Log("GenConfigTable");
     }
 

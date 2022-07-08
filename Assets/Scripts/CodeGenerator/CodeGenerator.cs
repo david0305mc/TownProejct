@@ -36,9 +36,14 @@ public class CodeGenerator
     {
         StringBuilder sb = new StringBuilder();
         sb.Append("#pragma warning disable 114\n");
+        sb.Append("using System;\n");
         sb.Append("using System.Collections;\n");
         sb.Append("using System.Collections.Generic;\n");
-        sb.Append("public class _ConfigTable : Singleton<_ConfigTable> {\n");
+
+        //sb.Append("public class _ConfigTable : Singleton<_ConfigTable> {\n");
+        sb.AppendLine("public class _ConfigTable {");
+        sb.AppendLine("private static readonly Lazy<_ConfigTable> _instance = new Lazy<_ConfigTable>(() => new _ConfigTable());");
+        sb.AppendLine("public static _ConfigTable Instance { get { return _instance.Value; } }");
         GenConfigTableData(sb);
         sb.Append("};");
         

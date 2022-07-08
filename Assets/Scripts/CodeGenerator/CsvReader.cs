@@ -18,8 +18,8 @@ public class CsvReader
         {
         "etg2_villager",
         };
-    public static string tableEnumData = "TableDataEx/TableEnum";
-    public static string configTable = "TableData/Config";
+    public static string tableEnumData = "TableEnum";
+    public static string configTable = "Config";
 
     public static void ParseDataTable()
     {
@@ -40,7 +40,7 @@ public class CsvReader
                 Debug.LogError($"load Filed tableName {tableName}");
             }
         }
-        //ParseConfigTable();
+        ParseConfigTable();
         _Datatable.Instance.MakeClientDT();
     }
 

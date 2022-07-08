@@ -1,7 +1,10 @@
 #pragma warning disable 114
+using System;
 using System.Collections;
 using System.Collections.Generic;
-public class _ConfigTable : Singleton<_ConfigTable> {
+public class _ConfigTable {
+private static readonly Lazy<_ConfigTable> _instance = new Lazy<_ConfigTable>(() => new _ConfigTable());
+public static _ConfigTable Instance { get { return _instance.Value; } }
 
 	public int MaxSeed;
 	public int MaxGold;

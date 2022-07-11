@@ -62,4 +62,40 @@ public static _Datatable Instance { get { return _instance.Value; } }
 		return dtetg2_villager;
 	}
 
+
+	public class Attacker {
+		public int index;
+		public int resource_index;
+		public int resource_face_index;
+		public string resource_body_index;
+	};
+	public Dictionary<int, Attacker> dtAttacker = new Dictionary<int, Attacker>();
+	public void LoadAttacker(List<Dictionary<string, object>> rowList) {
+		dtAttacker = new Dictionary<int, Attacker>();
+		foreach (var rowItem in rowList) {
+			Attacker dicItem = new Attacker();
+			foreach (var item in rowItem) {
+				var field = typeof(Attacker).GetField(item.Key, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+				try { field.SetValue(dicItem, item.Value); }
+				catch { UnityEngine.Debug.LogError(item); }
+			}
+			if (dtAttacker.ContainsKey(dicItem.index)) {
+				UnityEngine.Debug.LogError("Duplicate Key in Attacker");
+				UnityEngine.Debug.LogError(string.Format("Duplicate Key {0}", dicItem.index));
+			}
+			dtAttacker.Add(dicItem.index, dicItem);
+		}
+	}
+	public Attacker GetAttackerData(int _index) {
+		if (!dtAttacker.ContainsKey(_index)){
+			UnityEngine.Debug.LogError("Table Attacker");
+			UnityEngine.Debug.LogError(string.Format("table doesn't contain id {0}", _index));
+			return null;
+		}
+		return dtAttacker[_index];
+	}
+	public Dictionary<int, Attacker> GetAttackerData() {
+		return dtAttacker;
+	}
+
 };

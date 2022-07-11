@@ -17,6 +17,7 @@ public class CsvReader
     public static string[] tableData =
         {
         "etg2_villager",
+        "Attacker",
         };
     public static string tableEnumData = "TableEnum";
     public static string configTable = "Config";

@@ -11,12 +11,42 @@ public class TestTaskCode : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TestTask();
+        TestFunc();
+    }
+
+    private async void TestFunc()
+    {
+        Debug.Log("0");
+        var task = AsyncTest();
+        Debug.Log("8");
+        await task;
+        Debug.Log("9");
+    }
+
+    private async Task AsyncTest()
+    {
+        Debug.Log("1");
+        await Task.Run(async () => {
+            for (int i = 0; i < 3; i++)
+            {
+                await Task.Delay(1000);
+                Debug.Log($"{i}/2");
+            }
+        });
+        Debug.Log("2");
     }
 
     private async void TestTask()
     {
         Debug.Log("coffee is ready");
+
+        //Task test = async () => {
+        //    await Task.Delay(1);
+        //    Debug.Log("Egg 0");
+        //};
+        var testA = TestA();
+        await testA;
+        Debug.Log("TestA 2");
 
         var eggsTask = FryEggs(2);
         Debug.Log("eggs are ready");
@@ -162,6 +192,29 @@ public class TestTaskCode : MonoBehaviour
         Debug.Log("Egg 1");
 
         return new Egg();
+    }
+    private static async Task TestA()
+    {
+        Debug.Log("TestA 0");
+        Task a = new Task(async () =>
+        {
+            Debug.Log("Delay 0");
+            await Task.Delay(1000);
+            Debug.Log("Delay 1");
+        });
+        a.Start();
+        Debug.Log("Delay Start");
+        await a;
+
+        //await Task.Run(async () =>
+        //{
+        //    Debug.Log("Delay 2");
+        //    await Task.Delay(1000);
+        //    Debug.Log("Delay 3");
+        //}).ConfigureAwait(true);
+        
+        Debug.Log("TestA 1");
+        //await a;
     }
 
     private static Coffee PourCoffee()

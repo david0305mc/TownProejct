@@ -34,6 +34,18 @@ namespace T3
         public System.Action<T3Request> Complete { get; set; }
         public System.Action<T3Request> Failed { get; set; }
 
+        public virtual UnityWebRequest MakeRequest()
+        {
+            if (paramBuilder == null)
+            {
+                request = UnityWebRequest.Get(Url);
+            }
+            else
+            {
+                request = UnityWebRequest.Post(Url, paramBuilder.MakeParam());
+            }
+            return request;
+        }
     }
 
     public class RequestBase : T3Request

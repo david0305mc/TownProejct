@@ -7,7 +7,7 @@ public class T3NetworkTest : MonoBehaviour
     private void Awake()
     {
 
-        var networkSystem = GameUtil.MakeGameObject<GameNetworkSystem>("GameNetworkSystem", transform);
+        var networkSystem = GameUtil.MakeGameObject<T3LocalNetworkSystem>("T3LocalNetworkSystem", transform);
         networkSystem.StartUp(networkSystem);
     }
 

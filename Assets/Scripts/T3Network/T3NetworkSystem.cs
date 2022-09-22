@@ -20,6 +20,42 @@ namespace T3
             packet.CreateTask();
             packetQueue.Enqueue(packet);
         }
+
+        protected virtual void Update()
+        {
+            if (currentPacket != null)
+            {
+                int resultCode = (int)currentPacket.request.result;
+                if (resultCode >= 2)
+                {
+                    Debug.Log(currentPacket.request.result);
+                    Debug.Log(currentPacket.request.error);
+
+                    if (errorHandler != null)
+                    {
+                        errorHandler.OnError(currentPacket);
+                    }
+
+                    currentPacket.request.Dispose();
+                    currentPacket = null;
+                    return;
+                }
+
+                if (currentPacket.request.result == UnityEngine.Networking.UnityWebRequest.Result.Success)
+                {
+                    //ParsingRawData(currentPacket.request.downloadHandler.text);
+                }
+            }
+            else
+            {
+                if (packetQueue.Count <= 0)
+                {
+                    return;
+                }
+                currentPacket = packetQueue.Dequeue();
+                currentPacket.MakeRequest().SendWebRequest();
+            }
+        }
     }
 
     public abstract class NetworkEventReceiver : MonoBehaviour

@@ -9,7 +9,16 @@ namespace T3
     {
         public override int Method => 4011;
 
-        
+
+        public TestRecvData GetData()
+        {
+            return GetData<TestRecvData>();
+        }
+    }
+
+    public class TestRecvData : T3Response
+    { 
+    
     }
 
 }

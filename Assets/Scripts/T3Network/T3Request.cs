@@ -29,6 +29,11 @@ namespace T3
         // Parse
         public RecvParse recvParse { get; set; } = new RecvParse();
         public UnityWebRequest request { get; set; }
+
+        public T3PacketParamBuilder paramBuilder { get; set; }
+        public System.Action<T3Request> Complete { get; set; }
+        public System.Action<T3Request> Failed { get; set; }
+
     }
 
     public class RequestBase : T3Request

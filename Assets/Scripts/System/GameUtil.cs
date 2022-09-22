@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class GameUtil : MonoBehaviour
 {
+    public static T MakeGameObject<T>(string objName, Transform parent) where T : MonoBehaviour
+    {
+        return MakeGameObject(objName, parent).AddComponent<T>();
+    }
+
+    public static GameObject MakeGameObject(string objName, Transform parent)
+    {   
+        var temp = new GameObject(objName);
+        temp.transform.SetParent(parent);
+        return temp;
+
+    }
     public static RenderQuadScript CreateRenderQuad()
     {
         return MUtilities.CreateInstance(Game.SceneManager.instance.RenderQuad, Game.SceneManager.instance.ItemsContainer, true).GetComponent<RenderQuadScript>();
